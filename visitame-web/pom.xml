@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>pe.com.bbva.visitame</groupId>
+		<artifactId>visitame-web-project</artifactId>
+		<version>1.0</version>
+	</parent>
+	<artifactId>visitame-web</artifactId>
+	<packaging>war</packaging>
+	<name>visitame-web</name>
+	<description>Proyecto Web para el Front de la Aplicacion Visitame</description>
+
+	<properties>
+		<project.encoding>UTF-8</project.encoding>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>pe.com.bbva.visitame</groupId>
+			<artifactId>visitame-cliente</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>visitame</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<encoding>${project.encoding}</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+					<classesClassifier>classes</classesClassifier>
+					<warSourceDirectory>webapp</warSourceDirectory>
+					<webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+					<packagingExcludes>
+						WEB-INF/classes/visitame.properties
+						WEB-INF/classes/log4j2.xml
+					</packagingExcludes>
+					<webResources>
+						<resource>
+							<directory>${project.build.sourceDirectory}</directory>
+							<targetPath>WEB-INF/classes</targetPath>
+						</resource>
+
+						<resource>
+							<directory>src/main/webapp/WEB-INF/</directory>
+							<targetPath>WEB-INF/</targetPath>
+						</resource>
+
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

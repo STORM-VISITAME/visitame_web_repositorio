@@ -1,0 +1,377 @@
+<link rel="import"
+	href="../../bower_components/polymer/polymer-element.html">
+
+<!-- shared styles for all views -->
+<dom-module id="login-style"> 
+
+	<template>
+		<style>
+  
+		:host {
+			display: block;
+			padding: 0px;
+			margin: 0px;
+			
+			  --paper-input-container: {
+		       	padding: 0px 0px 0px 0px;
+		        }
+			
+		}
+		paper-dropdown-menu {
+			width: 100%;
+		}
+		
+		paper-listbox {
+			width: 53.5vh;
+		}
+		
+		.botonera {
+			text-align: center;
+			padding: 15px 0px 0px 0px;
+			margin: 0px;
+		}
+		
+		.botonera paper-button{
+			width: 100%;
+			margin-bottom: 17px;
+			margin-right:0px;
+			margin-left:0px;
+			text-transform: capitalize;
+		}
+		
+		.botonera paper-button.reservar{
+			background: #0051A9;
+			color: #fff;
+			text-transform: none;
+		}
+		
+		.form-reserva{
+			width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+		}
+	
+		
+		.content-input-form{
+		border-bottom: 1px #ccc solid;
+					margin-bottom: 20px;
+		}
+		
+		
+		app-header {
+			color: #fff;
+			background-color: #017ECD;
+			text-align: center;
+			margin-right: 0px;
+			padding-right: 0px;
+			margin-left: 0px;
+			padding-left: 0px;
+			-moz-box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.4);
+			-webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
+			box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.4);
+		}
+		
+		app-toolbar {
+			margin-right: 0px;
+			margin-left: 0px;
+			padding-left: 0px;
+		}
+		
+		app-toolbar div {
+			margin-left: -35px;
+		}
+		
+		paper-icon-button.back-btn-login-main {
+			width: 45px;
+			height: 45px;
+		}
+		
+		.content-form {
+			padding-left: 30px;
+			padding-right: 30px;
+		}
+		
+		.content-form h3{
+			width:100%;
+			text-align:center;
+			margin-top:20px;
+			margin-bottom:10px;
+			font-family: 'Roboto', 'Noto', sans-serif;
+			color : #666;
+		}
+		
+		.content-franga-login{
+			width: 100%;
+			position: relative;
+			margin-bottom: 25px;
+		}
+		
+		.content-franga-login .up{
+			width: 100%;
+			background-color: #F4F4F4;
+			height: 20px;
+			-webkit-border-top-left-radius: 4px;
+			-webkit-border-top-right-radius: 4px;
+			-moz-border-radius-topleft: 4px;
+			-moz-border-radius-topright: 4px;
+			border-top-left-radius: 4px;
+			border-top-right-radius: 4px;
+		}
+		
+		.content-franga-login .bottom{
+			width: 100%;
+			background-color: #D8D8D8;
+			height: 20px;
+			-webkit-border-bottom-right-radius: 4px;
+			-webkit-border-bottom-left-radius: 4px;
+			-moz-border-radius-bottomright: 4px;
+			-moz-border-radius-bottomleft: 4px;
+			border-bottom-right-radius: 4px;
+			border-bottom-left-radius: 4px;
+		}
+		
+		.content-franga-login .box-init{
+			 bottom:0px;
+			 margin-left:auto;
+			 margin-right:auto;
+			 width:90%;
+			 margin-top:-10px;
+			 background-color:#fff;
+			 box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+		}
+		
+		.content-franga-login .box-init .left{
+			display: inline-block;
+			text-align: left;
+			width: 78%;
+			padding-bottom: 0px;
+			margin-bottom: 0px;
+		}
+		
+		.content-franga-login .box-init .right{
+			display: inline-block;
+				text-align: right;
+				width: 20%;
+				vertical-align: middle;
+		}
+		
+		.content-franga-login .box-init .right img{
+			margin-right: 10px;
+    		margin-top: -15px;
+		}
+		
+	
+		
+		.content-franga-login .box-init .content{
+			padding: 15px 15px;
+		}
+		
+		.content-franga-login .box-init .content h3{
+			width:auto;
+			text-align:left;
+			margin-top:0px;
+			margin-bottom:0px;
+			padding-bottom:0px;
+			font-family: 'Roboto', 'Noto', sans-serif;
+			color : #666;
+			font-size: 1em;
+		}
+		
+		.content-franga-login .box-init .content p{
+		color: #B2B2B2;
+		font-size: 0.7em;
+		margin-top: 0px;
+		}
+		
+		.usuario-atencion{
+			width: 100%;
+			padding: 0px 15px 15px 15px;
+			margin-top: -15px;
+		}
+		
+		.usuario-atencion iron-icon{
+			color: #BDC0C6;
+			display: inline-block;
+			margin-top: -5px;
+		}
+		
+		.usuario-atencion div{
+			color: #008DDB;
+			font-weight: bold;
+			font-size: 0.7em;
+			width:auto;
+			display: inline-block;
+
+		}
+		
+		#panelResultTicket{
+		position: relative;
+		width:100%;
+		}
+		
+		.headerResultTicket{
+			background-color:#F3F4F3;
+			width: 100%;
+			height: 55px; 
+			top:0px;
+			position: absolute;
+		}
+		
+		.ticket-body{
+			border-top:4px #DBD9D9 solid;
+		    position: absolute;
+			margin-left:7%;
+			width:86%;
+			top:30px;
+			background-color: #fff;
+			
+	       box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 0px 0px 0px rgba(0, 0, 0, 0.2);
+		}
+		
+		.ticket-body .content{
+			padding-left:20px;
+			padding-right:20px;
+		}
+		
+		.ticket-body .content h3{
+			width: 100%;
+			text-align: center;
+			font-size: 1.5em;
+			margin-bottom: 0px;
+			padding-bottom: 0px;
+		}
+		
+		.ticket-body .content p{
+			width: 100%;
+			text-align: center;
+			font-size: 0.8em;
+			
+			
+		}
+		
+		.ticket-body .content h2{
+			width: 100%;
+			text-align: center;
+			font-size: 3em;
+			margin-bottom: 0px;
+			padding-bottom: 0px;
+			line-height: 0.85em;
+    margin-top: 30px;
+		}
+		
+		.textAfterTitle{
+			padding-top: 5px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			padding-bottom: 0px;
+		}
+		
+		.text-grey-strong{
+		color: #535C6B;
+		}
+		
+		.text-grey-light{
+			color: #B7B7B7;
+		}
+		
+		.text-celeste{
+		color: #268ACB;
+		}
+		
+	.textNumTicket{
+		padding: 0px 0px 0px 0px;
+		margin: 0px;
+	}
+	
+	.textEnAtencion{
+			padding-top: 0px;
+			margin-top: 0px;
+			margin-bottom: 25px;
+			padding-bottom: 0px;
+			color: #BCBABA;
+			font-size: 1em !important;
+		}
+		
+		.text-fecha-hora-atencion{
+		color: #535C6B;
+		font-size: 0.7em !important;
+		}
+		
+		
+		
+		.ticket-body .content-franga-login .box-init{
+			 margin-top:20px;
+			 bottom:0px;
+			 width:100%;
+			 background-color:#fff;
+			 box-shadow: none;
+			 border-top: 1px #e1e1e1 solid;
+		}
+		
+		
+		.ticket-body .usuario-atencion{
+		 padding: 0px 15px 15px 10px !important;
+		}
+		
+		.tickectDireccionOficina{
+    		margin-top: 5px !important;
+    		font-size: 0.65em !important;
+    		text-align: left !important;
+		}
+		
+		.ticket-body .content-franga-login{
+			margin-bottom: 0px;
+		}
+		
+		.ticket-body .botonera{
+		margin-bottom: 15px;
+		}
+		
+		.ticket-body .content-franga-login h3{
+		font-size: 0.9em !important;
+		text-align: left;
+		}
+		
+		.separador-line{
+			border-bottom: 1px #e1e1e1 solid;height: 5px;
+		}
+		
+		.panel-constancia{
+			padding: 10px 0px;
+			text-align: left !important;
+		}
+		
+		.panel-constancia h3{
+			padding: 0px;
+			margin: 0px;
+			text-align: left !important;
+			font-size:0.85em !important;
+		}
+		
+		.panel-constancia h4{
+			padding: 0px;
+			margin: 8px 0px 0px 0px;
+			text-align: center !important;
+			font-size:0.8em !important;
+		}
+		
+		.panel-envio-telefono{
+		border :1px #e1e1e1 solid;float: left;padding: 0px 5% 0px 5%;margin-top: 5px;
+		border-radius: 4px;margin-bottom: 15px;width: 92%;
+		}
+		
+		.content-envio-telefono{
+		 width: 41%;padding-top: 0px;margin-top: 1px;  float: right;
+		}
+		
+			.content-envio-operador{
+		 width: 51%;padding-top: 0px;margin-top: 0px; float: left;
+		}
+		.recuerda{
+		   font-size: 12px;
+		   	color: #8e9298;
+		
+		}
+		</style>
+	</template> 
+</dom-module>

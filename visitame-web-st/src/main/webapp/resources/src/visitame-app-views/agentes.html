@@ -1,0 +1,51 @@
+<link rel="import"	href="../../bower_components/polymer/polymer-element.html">
+<link rel="import"	href="../visitame-app-views/unidadAtencion.html">
+
+<dom-module id="agentes-view"> 
+<template>
+ <meta charset="utf-8">
+<unidad-atencion-view id="unidadAtencion" tipo-unidad="[[tipoUnidad]]" seleccion="[[seleccion]]"></unidad-atencion-view>
+</template>
+<script>
+	class AgentesView extends Polymer.Element {
+	      static get is() { return 'agentes-view'; }
+	
+	      static get properties(){
+	        return {
+	              tipoUnidad:{
+	            	type:String
+	              },
+	              seleccion:{
+	            	  type:String
+	              }  
+	              ,
+	              parentApp : {
+						type : Object
+		              }
+	        }
+	      }
+
+	      setParentApp(parent){
+				this.parentApp = parent;
+		  }
+
+	      getParentApp(){
+				return this.parentApp;
+		  }
+	      
+	      cargarMapa(center){
+	    	  this.$.unidadAtencion.cargarMapa(center);
+	      }
+
+		  ready(){
+	 			super.ready();
+	 			SyncObjects(()=>{
+	 				this.getParentApp().present();
+	 	 			this.$.unidadAtencion.setParentApp( this.getParentApp() );
+	 	 	 	});
+	 		    
+	 	 	 }
+	}
+    window.customElements.define(AgentesView.is, AgentesView);
+  </script>
+</dom-module>

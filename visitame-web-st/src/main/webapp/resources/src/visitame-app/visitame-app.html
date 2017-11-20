@@ -1,0 +1,437 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../visitame-app-icons/main-icons.html">
+<link rel="import" href="../visitame-app-styles/visitame-style.html">
+<link rel="lazy-import" href="../visitame-app-views/oficinas.html">
+<link rel="lazy-import" href="../visitame-app-views/cajeros.html">
+<link rel="lazy-import" href="../visitame-app-views/agentes.html">
+<link rel="import" href="../visitame-app-commons/parametros-commons.html">
+<link rel="import" href="../visitame-app-views/login.html">
+<link rel="import" href="../visitame-app-views/modal-leyenda.html">
+
+<dom-module id="visitame-app">
+  <template>
+   <meta charset="utf-8">
+  <style include="visitame-styles"></style>
+
+	
+	
+<parametros-commons id="parametrosConfiguracion"></parametros-commons>
+<div id="loadingMain" class="mask-loading">
+	<div class="child-element">
+		<img style="width:100%;" src="{{pathResources}}images/logo.png" />
+		<paper-progress indeterminate class="slow"></paper-progress>
+	</div>
+</div>
+
+  <!-- Uso de Parametros -->
+  <parametros-commons id = "parametrosConfiguracion" ></parametros-commons>
+    
+  <!-- Routing -->
+  <app-location route="{{route}}"></app-location>
+  <app-route
+      route="{{route}}"
+      pattern="[[rootPattern]]visitame/:pagina"
+      data="{{routeData}}"
+      tail="{{subroute}}"></app-route>
+
+  <modal-leyenda></modal-leyenda>
+  <!-- Menu Toolbar -->
+<!--   <app-drawer-layout fullbleed> -->
+  <app-drawer-layout fullbleed>
+<!--     <app-drawer id="drawer" slot="drawer"> -->
+<!--       <iron-selector selected="[[pagina]]" attr-for-selected="name" class="drawer-list" role="navigation"> -->
+<!--         <a name="oficinas"  href="visitame/oficinas">Oficinas</a> -->
+<!--         <a name="cajeros" href="visitame/cajeros">Cajeros</a> -->
+<!--         <a name="agentes" href="visitame/agentes">Agentes</a> -->
+<!--       </iron-selector> -->
+<!--   </app-drawer> -->
+    <!-- Main content -->
+    <app-header-layout id = "headerMain" has-scrolling-region>
+
+      <app-header id="header" slot="header"   effects="waterfall">
+        <app-toolbar>
+          <!--  <paper-icon-button class="ver" icon="my-icons:menu" drawer-toggle></paper-icon-button>-->
+          <paper-icon-button class="back-btn" icon="arrow-back" aria-label="Atrás" on-click="_regresar"></paper-icon-button>
+          <div main-title style="text-align: center;">Visítame</div>
+          
+          <paper-icon-button icon="refresh" aria-label="Actualizar" on-click="_reload"></paper-icon-button>
+          
+      	</app-toolbar>
+
+      	<app-toolbar class="ver toolbarNavegador" primary>
+          <paper-tabs selected="[[pagina]]" attr-for-selected="name" noink>
+          	<paper-tab  name="oficinas"><a   href="visitame/oficinas">Oficinas</a></paper-tab>
+          	<paper-tab  name="cajeros"><a   href="visitame/cajeros">Cajeros</a></paper-tab>
+          	<paper-tab  name="agentes"><a  href="visitame/agentes">Agentes</a></paper-tab>
+      	  </paper-tabs>
+      	</app-toolbar>
+        
+        <app-toolbar class="ver buscador"  middle-justify="center">
+            <paper-icon-button icon="[[iconoMapa]]" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
+            <div class="buscador-contenedor">
+            	<paper-input  id="buscador" class="buscador-input" no-label-float placeholder="Buscar direcci&#243;n">
+            		<iron-icon class="iconoBuscar" icon="search"  slot="suffix"></iron-icon>
+            	</paper-input>
+            </div>
+        </app-toolbar>
+      </app-header>
+
+      <iron-pages
+      	  id = "ironPagesMain"	
+          selected="[[pagina]]"
+          attr-for-selected="name"
+          fallback-selection="view404"
+          role="main">
+          
+        <oficinas-view id ="viewVisitas" name="oficinas" seleccion="[[pagina]]" tipo-unidad="O"></oficinas-view>
+        <cajeros-view id ="viewCajeros"  name="cajeros"  seleccion="[[pagina]]" tipo-unidad="C"></cajeros-view>
+        <cajeros-view id ="viewAgentes"  name="agentes"  seleccion="[[pagina]]" tipo-unidad="A"></agentes-view>
+        <my-view404 name="view404"></my-view404>
+        
+      </iron-pages>
+      
+      
+    </app-header-layout>
+    <login-view id ="loginView" style = "display:none">
+    	<slot></slot>
+    </login-view>  
+    
+  </app-drawer-layout>
+  
+<!--   login-view -->
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+//      class VisitameApp extends Polymer.Element {
+    class VisitameApp extends Polymer.mixinBehaviors([Polymer.IronResizableBehavior], Polymer.Element){	
+         static get is() { return 'visitame-app'; }
+         static get properties() {
+           return {
+             pagina: {
+               type: String,
+               reflectToAttribute: true,
+               observer: '_pageChanged'
+             },
+             results : {
+                 type : Array,
+                 value : []
+             },
+             map: Object,
+             rootPattern: String,
+             routeData: Object,
+             subroute: String,
+             iconoMapa: {
+           	  type: String,
+           	  value: 'maps:streetview'
+             },
+             center :{
+                 type: Object,
+                 value : {}
+             },
+             altoHeader:{
+            	 type: String
+             },
+             altoPantalla:{
+               	 type: String
+             },
+             map:{
+				type : Object
+             },
+             mapaVisible:{
+            	 type:Boolean,
+            	 value:false
+             },
+             pathResources:{
+            	 type: String,
+            	 value:contextST+dirStatic
+             }
+           };
+         }
+
+         present(){
+			return true; 
+         }
+         
+         SyncObject(callback){
+        	 var verify = setInterval(() => { 
+	 				try{
+	 					callback();
+	 					clearInterval(verify);
+	 				}catch(e){}
+ 		  		}, 100);
+         }
+
+         buildBusquedaDireccions(map){
+             
+             if(map && !this.$.map){
+           	  this.$.map = map;
+                 var input = this.$.buscador;
+                 var context = this;
+                 var searchBox = new google.maps.places.SearchBox(input);
+
+
+                 map.addListener('bounds_changed', () => {
+                     searchBox.setBounds(map.getBounds());
+                  });
+                 
+                 searchBox.addListener('places_changed', () =>{
+
+                	 //this.$.viewVisitas.clearListOficinas();
+                	 var places = searchBox.getPlaces();
+        				
+        				if (places.length == 0) {
+        					return;
+        				}
+
+        				let viewOrigen = null;
+
+        				this.changeIconMapa();
+        				
+        				if(this.pagina === "oficinas"){
+        					viewOrigen = this.$.viewVisitas;	
+        	   	  		}else if(this.pagina === "cajeros"){
+        	   	  			viewOrigen = this.$.viewCajeros;	
+        	   	  		}if(this.pagina === "agentes"){
+        	   	  			viewOrigen = this.$.viewAgentes;	
+        	   	  		}
+	        	   	  	viewOrigen.clearListOficinas();
+	        	   	 	viewOrigen.clearDetalleOficina();
+	        	   	    viewOrigen.getOficinasxUbicacion(places[0].geometry.location.lat(),places[0].geometry.location.lng());
+	        	   	 	this.center = {
+								latitude : places[0].geometry.location.lat(),
+								longitude : places[0].geometry.location.lng()
+		    				};
+	        	   	    
+                 } );
+
+                 
+       
+             }
+         }
+
+         setMap(map){
+			this.map = map;
+         }
+         
+         getMap(){
+			return this.map;
+         }
+         
+         initBusquedaDireccions(){
+       	  this.SyncObject(()=>{
+       			this.buildBusquedaDireccions(this.$.viewVisitas.getMap());
+       			this.setMap(this.$.viewVisitas.getMap());
+           });
+         }
+
+         static get observers() {
+           return [
+             '_routePageChanged(routeData.pagina)',
+           ];
+         }
+
+         constructor() {
+           super();
+           this.rootPattern = (new URL(this.rootPath)).pathname;
+         }
+
+         _routePageChanged(pagina) {
+           this.pagina = pagina || 'oficinas';
+
+           /*if (!this.$.drawer.persistent) {
+             this.$.drawer.close();
+           }*/
+         }
+
+         _pageChanged(pagina) {
+
+	        if(this.$.parametrosConfiguracion && this.$.parametrosConfiguracion.getParametros && this.$.parametrosConfiguracion.getParametros()){
+	        	this.center = this.$.parametrosConfiguracion.getParametros().posicionActual;
+	        }   
+   			this.$.buscador.value = null;
+            var resolvedPageUrl = this.resolveUrl('../visitame-app-views/'+pagina + '.html');
+            Polymer.importHref( resolvedPageUrl,  null, this._showPage404.bind(this), true);
+           
+           	this.iconoMapa = "list";
+         }
+
+         _showPage404() {
+           this.pagina = 'view404';
+         }
+         
+         changeIconMapa(){
+      		if(this.iconoMapa === 'maps:streetview'){
+       			this.iconoMapa = 'list';
+       			this.mapaVisible = true;
+       	  	}else{
+       	  		this.iconoMapa = 'maps:streetview';
+       	  		this.mapaVisible = false;
+       	  	}
+         }
+         
+         _verMapa(){
+        	let viewOrigen = null;
+        	
+  	  		if(this.pagina === "oficinas"){
+  	  			viewOrigen = this.$.viewVisitas;
+  	  		viewOrigen.clearDetalleOficina();
+    	  	}else if(this.pagina === "cajeros"){
+    	  		viewOrigen = this.$.viewCajeros;	
+   	  		}else if(this.pagina === "agentes"){
+   	  			viewOrigen = this.$.viewAgentes;	
+   	  		}
+  	  		
+  	  	 	this.changeIconMapa();
+  	  	 	viewOrigen.cargarMapa(this.center);
+         }
+
+    	 init(loading){
+	   		 this.$.parametrosConfiguracion.init(loading);
+	   		 this.jobRefreshParametros();
+
+	   		 this.SyncObject(()=>{
+	   			this.$.viewVisitas.setParentApp(this);
+	         });
+	   		 this.SyncObject(()=>{
+	   			this.$.loginView.setParentApp(this);
+		      });
+	   		 this.SyncObject(()=>{
+		   		this.$.viewCajeros.setParentApp(this);
+			 });
+	   	     this.SyncObject(()=>{
+	   			this.$.viewAgentes.setParentApp(this);
+		     });
+   	  	 }
+
+   	  	 showLogin(data){
+   	  		this.setFalse();
+			if(data){
+				this.$.loginView.renderData(data);
+// 				this.$.loginView.cargarSeguridad();
+// 				this.$.loginView.recargarCapcha();
+			}
+	    	this.$.ironPagesMain.style.display = 'none';
+			this.$.headerMain.style.display = 'none';
+			this.$.loginView.style.display = 'block';
+			scaleReCaptcha();
+   	   	 }
+
+         setFalse(){
+       	 	console.log(this.$.ironV);
+         }
+         
+   	   	 closeLogin(){
+	   	  	
+	   	    this.$.loginView.style.display = 'none'; 
+	    	this.$.ironPagesMain.style.display = 'block';
+			this.$.headerMain.style.display = 'block';
+
+			 this.SyncObject(()=>{
+				 google.maps.event.trigger(this.getMap, "resize");
+			      });
+		
+   	   	 }
+         
+         ready(){
+       	  super.ready();
+       	  this.init(this.$.loadingMain);
+       	  this.initBusquedaDireccions();
+       	 // this.showLogin();
+       	  this.altoHeader   = this.$.header.clientHeight;
+       	  this.altoPantalla = this.parentElement.clientHeight;
+       	
+         }
+         
+        connectedCallback() {
+        	  super.connectedCallback();
+        	  this.addEventListener('iron-resize', this._onIronResize);
+        }
+
+        disconnectedCallback() {
+        	  super.disconnectedCallback();
+        	  this.removeEventListener('iron-resize', this._onIronResize);
+        }
+        
+        _onIronResize(){
+        	if(this.pagina === "oficinas"){
+        		this.altoHeader   = this.$.header.clientHeight;
+            	this.altoPantalla = this.parentElement.clientHeight;
+            	this.SyncObject(()=>{
+            		let mapa = this.$.viewVisitas.getMapaOficina();
+            		//mapa.reloadSizeDetalle();
+            	});
+        	}
+        }
+
+         _regresar(){
+       	  window.location.href='visitame/oficinas';
+       	  this.pagina ="oficinas";
+         }
+
+         jobRefreshParametros(){
+
+        	 setInterval(() => { 
+    			 if(this.$.parametrosConfiguracion && this.$.parametrosConfiguracion.init){
+    				 this.$.parametrosConfiguracion.buildParametros();
+    			 }
+    		  }, 1000*60);
+
+
+        	 setInterval(() => { 
+    			 if(this.$.parametrosConfiguracion && this.$.parametrosConfiguracion.init){
+    				 this.$.parametrosConfiguracion.refreshGeLocation();
+    			 }
+    		  }, 1000*30);
+     		  
+
+         }
+         
+         getViewByPage(page) {
+             let viewOrigen = null;
+             if (page === "oficinas") {
+                 viewOrigen = this.$.viewVisitas;
+             } else if (page === "cajeros") {
+                 viewOrigen = this.$.viewCajeros;
+             } else if (page === "agentes") {
+                 viewOrigen = this.$.viewAgentes;
+             }
+             return viewOrigen;
+         }
+         
+         _reload(){
+        	 let unidadGestoraOficinas = this.getViewByPage('oficinas').getUnidadGestora();
+        	 unidadGestoraOficinas.reloadData(this.center.latitude,this.center.longitude,null,true);
+        	
+         }
+
+       }
+       window.customElements.define(VisitameApp.is, VisitameApp);
+     
+  </script>
+    
+</dom-module>

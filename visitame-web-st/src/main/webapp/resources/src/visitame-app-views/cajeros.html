@@ -1,0 +1,71 @@
+<link rel="import"	href="../../bower_components/polymer/polymer-element.html">
+<link rel="import"	href="../visitame-app-views/unidadAtencion.html">
+
+<dom-module id="cajeros-view"> 
+<template>
+ <meta charset="utf-8">
+<unidad-atencion-view id="unidadAtencion" tipo-unidad="[[tipoUnidad]]" seleccion="[[seleccion]]"></unidad-atencion-view>
+</template>
+<script>
+	class CajerosView extends Polymer.Element {
+	      static get is() { return 'cajeros-view'; }
+	
+	      static get properties(){
+	        return {
+	              tipoUnidad:{
+	            	type:String
+	              },
+	              seleccion:{
+	            	  type:String
+	              }
+	              ,
+	              parentApp : {
+						type: Object
+	              }
+	        }
+	      }
+
+	      setParentApp(parent){
+				this.parentApp = parent;
+		  }
+
+	      getParentApp(){
+				return this.parentApp;
+		  }
+	      
+	      cargarMapa(center){
+	    	  this.$.unidadAtencion.cargarMapa(center);
+	      }
+	      getOficinasxUbicacion(latitude, longitude){
+				return this.$.unidadAtencion.getOficinasxUbicacion(latitude, longitude);
+		  }
+	      
+	      resetearMapa(){
+	    	  this.$.unidadAtencion.resetearMapa();
+	      }
+
+
+	      clearListOficinas(){
+				return this.$.unidadAtencion.clearListOficinas();
+	 		}
+	 		
+    	  clearMapa(){
+			return this.$.unidadAtencion.clearMapa();  
+ 		  }
+    	  clearDetalleOficina(){
+    			this.$.unidadAtencion.clearDetalleOficina();
+     	  }
+
+    	  ready(){
+   			super.ready();
+   			SyncObjects(()=>{
+   				this.getParentApp().present();
+   	 			this.$.unidadAtencion.setParentApp( this.getParentApp() );
+   	 	 	});
+   		    
+   	 	 }
+	      
+	}
+    window.customElements.define(CajerosView.is, CajerosView);
+  </script>
+</dom-module>

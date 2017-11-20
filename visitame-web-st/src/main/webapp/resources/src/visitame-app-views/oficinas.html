@@ -1,0 +1,81 @@
+<link rel="import"	href="../../bower_components/polymer/polymer-element.html">
+<link rel="import"	href="../visitame-app-views/unidadAtencion.html">
+
+<dom-module id="oficinas-view"> 
+<template>
+<meta charset="utf-8">
+	<unidad-atencion-view id="unidadAtencion" tipo-unidad="[[tipoUnidad]]" seleccion="[[seleccion]]"></unidad-atencion-view>
+</template>
+<script>
+	class OficinasView extends Polymer.Element {
+	      static get is() { return 'oficinas-view'; }
+	
+	      static get properties(){
+	        return {
+	              tipoUnidad:{
+	            	type:String
+	              },
+	              seleccion:{
+	            	  type:String
+	              },
+	              estado:{
+	            	  type:String
+	              }
+	              ,
+	              parentApp : {
+						type : Object
+		              }
+	        }
+	      }
+
+	      setParentApp(parent){
+				this.parentApp = parent;
+		  }
+
+	      getParentApp(){
+				return this.parentApp;
+		  }
+	      
+	      getMap(){
+			return this.$.unidadAtencion.getMap();
+	      }
+	      
+	      getMapaOficina(){
+	    	  return this.$.unidadAtencion.getMapaOficina();
+	      }
+	      
+	      
+	      cargarMapa(center){
+	    	  this.$.unidadAtencion.cargarMapa(center);
+	      }
+	      getOficinasxUbicacion(latitude, longitude){
+			return this.$.unidadAtencion.getOficinasxUbicacion(latitude, longitude);
+	      }
+	      
+	      getUnidadGestora(){
+	    	  return this.$.unidadAtencion;
+	      }
+	      
+ 		  clearListOficinas(){
+			return this.$.unidadAtencion.clearListOficinas();
+ 		  }
+    	  clearMapa(){
+			return this.$.unidadAtencion.clearMapa();  
+ 		  }
+    	  clearDetalleOficina(){
+  			this.$.unidadAtencion.clearDetalleOficina();
+   		  }
+
+ 		  ready(){
+ 			super.ready();
+ 			SyncObjects(()=>{
+ 				this.getParentApp().present();
+ 	 			this.$.unidadAtencion.setParentApp( this.getParentApp() );
+ 	 	 	});
+ 		    
+ 	 	 }
+
+	}
+    window.customElements.define(OficinasView.is, OficinasView);
+  </script>
+</dom-module>

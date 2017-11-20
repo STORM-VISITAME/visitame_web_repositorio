@@ -1,0 +1,302 @@
+<link rel="import"
+	href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="visitame-styles"> <template>
+<style>
+:host { -
+	-app-primary-color: #4285f4; -
+	-app-secondary-color: black;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+app-drawer-layout:not ([narrow] ) [drawer-toggle] {
+	display: none;
+}
+
+app-header {
+	color: #fff;
+	background-color: #017ECD;
+}
+
+app-header paper-icon-button { -
+	-paper-icon-button-ink-color: white;
+}
+
+.drawer-list {
+	margin: 0 20px;
+}
+
+.drawer-list a {
+	display: block;
+	padding: 0 16px;
+	text-decoration: none;
+	color: var(- -app-secondary-color);
+	line-height: 40px;
+}
+
+
+.drawer-list a.iron-selected {
+	color: black;
+	font-weight: bold;
+}
+
+.menu-btn {
+	display: none;
+}
+
+@media ( max-width : 767px) {
+	.menu-btn {
+		display: block;
+	}
+	:host ([pagina=pagina2] ) .menu-btn, .ver {
+		display: none;
+	}
+	:host ([pagina=pagina2] ) app-header-layout {
+		padding-top: 64px;
+	}
+	:host ([pagina=pagina2] ) .ver {
+		display: none;
+	}
+}
+
+:host (:not ([pagina=pagina2] )) paper-icon-button.back-btn {
+	display: none;
+}
+
+:host (:not ([pagina=pagina2] )) .ver {
+	display: block;
+}
+
+paper-tabs { -
+	-paper-tabs-selection-bar-color: #FFF;
+}
+
+paper-tab[link] a {
+	/* These mixins (from iron-flex-layout) center the link text. */ @apply
+	(--layout-horizontal); @apply (--layout-center-center);
+	color: #fff;
+	text-decoration: none;
+}
+
+<dom-module id="visitame-styles"> 
+	<template>
+		<style>
+			:host {
+		      --app-primary-color: #4285f4;
+		      --app-secondary-color: black;		
+		        display: block;
+		    }
+		    app-drawer-layout:not([narrow]) [drawer-toggle] {
+		      display: none;
+		    }
+		
+		    app-header {
+		      color: #fff;
+		      background-color: #017ECD;
+		    }
+		
+		    app-header paper-icon-button {
+		      --paper-icon-button-ink-color: white;
+		    }
+		
+		    .drawer-list {
+		      margin: 0 20px;
+		    }
+		
+		    .drawer-list a {
+		      display: block;
+		      padding: 0 16px;
+		      text-decoration: none;
+		      color: var(--app-secondary-color);
+		      line-height: 40px;
+		    }
+		
+		    .drawer-list a.iron-selected {
+		      color: black;
+		      font-weight: bold;
+		    }
+		
+		
+		    .menu-btn{
+		    	display: none;
+		    }
+		
+		    @media (max-width: 767px) {
+              .menu-btn {
+                  display: block;
+              }
+
+              :host([pagina=pagina2]) .menu-btn, .ver{
+                  display: none;
+              }
+              
+              :host([pagina=pagina2]) app-header-layout {
+              			padding-top: 64px;	
+              }
+
+              :host([pagina=pagina2]) .ver{
+                  display: none;
+                  
+              }
+		  }
+		
+          :host(:not([pagina=pagina2])) paper-icon-button.back-btn{
+            display: none;
+          }
+
+          :host(:not([pagina=pagina2])) .ver{
+            display: var(--layout-horizontal_-_display);
+          }
+          
+          paper-tabs {
+          	--paper-tabs-selection-bar-color: #FFF;
+          	width: 100%;
+          }
+		          
+		  paper-tab[link] a {
+		    /* These mixins (from iron-flex-layout) center the link text. */
+		    @apply(--layout-horizontal);
+		    @apply(--layout-center-center);
+		    color: #fff;
+		    text-decoration: none;
+		  }
+		  
+		  paper-tab:nth-child(n+2){
+		      border-left: 1px solid;
+		      border-color: #0051A9;
+		  }
+		  
+		  paper-tab{
+		      --paper-tab-content: {
+		           line-height:2.5;
+		           text-align: center;
+		           color: #fff;
+		      }
+		      width: 100%;
+		      color: #fff;
+		  }
+		  
+		  paper-tabs paper-tab.iron-selected a{
+		    color: #FFF;
+		  }
+		  
+		  paper-tab a{
+		    color: #fff;
+		    font-size: 1.3em;
+		    text-decoration:none;  
+		  }
+		  
+		  paper-input{
+	      `--paper-input-container-label-floating:{
+	        	display: none;           
+	       }
+		   background-color: white;
+		  }
+		  
+		  paper-input paper-input-container {
+		      background-color: white;
+		       `--paper-input-container-label-floating:{
+		        display: none;           
+		       }
+		  }
+		  
+		  app-toolbar.buscador{
+		      background-color: #0051A9;
+		  }
+		  
+		/*   app-toolbar{ */
+		/*       height: 54px; */
+		/*   } */
+		  
+		  paper-icon-button.boton-mapa{
+		      float: left;
+		      display: block;
+		      background-color: #0078D2;
+		      border-radius: 3px;
+		      margin-right: 2%;
+		  }
+		  
+		  iron-icon.icono-buscar{
+		      color: #fff;
+		      margin-top: -5px;
+		  }
+		  
+		  .buscador-input{
+		      border: 0px;
+		   
+		    
+		  }
+		  
+		  paper-input {
+		  	 --paper-input-container: {
+        		padding: 3px;
+/*         		display: inline-flex; */
+    		}
+    		
+    		--paper-input-container-focus-color: white;
+    		--paper-input-container-underline:{
+    			border:0px;
+    		}
+		  }
+		  
+		  :host.underline{
+		  	height: 0px;
+		  
+		  }
+		  
+		  .buscador-contenedor{
+		      
+		      
+		      background-color: white;
+		      border: solid 1px;
+		      width: 100%;
+		      height: 39px;
+		      border-radius: 3px;
+		      padding-left: 2%;
+		  
+		  }
+		  
+		  .back-btn{
+		  	color: white;
+		  }
+		  
+		  .toolbarNavegador	{
+		  	padding: 0px  !important;
+		  	height: inherit !important;
+		  }
+		  
+		  iron-icon.iconoBuscar{
+		  	color: #0078D2;
+		  }
+		  
+		   paper-progress{
+ 			width: 100%;
+ 			--paper-progress-active-color: #0d47a1;
+ 		  }
+ 
+	    .mask-loading{
+	     	position: absolute;
+	     	background-color:#fff;
+	     	height: 100%;
+	     	width: 100%;
+	     	z-index: 100;  
+	      	margin: auto;
+	 		top: 0; left: 0; bottom: 0; right: 0;
+	   }
+   
+   		.child-element{
+			display: inline-block;
+ 			position: absolute;
+ 			top: 40%;
+ 			left:50%;
+ 			transform:translateX(-50%);
+	   }
+
+		.child-element img{
+			margin-bottom: 15px;
+		}
+		</style>
+	</template> 
+</dom-module>

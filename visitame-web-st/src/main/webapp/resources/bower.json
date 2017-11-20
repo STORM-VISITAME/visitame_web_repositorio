@@ -1,0 +1,29 @@
+{
+  "name": "visitame",
+  "description": "App de Visitas BBVA",
+  "main": "index.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "app-layout": "PolymerElements/app-layout#^2.0.0",
+    "iron-selector": "PolymerElements/iron-selector#^2.0.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.0",
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^2.0.0",
+    "paper-tabs": "PolymerElements/paper-tabs#^2.0.0",
+    "neon-animation": "polymerelements/neon-animation#^2.0.1",
+    "paper-spinner": "PolymerElements/paper-spinner#^2.0.0",
+    "paper-buttons-group": "NeilujD/paper-buttons-group#^2.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.1",
+    "iron-icon": "PolymerElements/iron-icon#^2.0.0",
+    "paper-material": "PolymerElements/paper-material#^2.0.0",
+    "iron-list": "PolymerElements/iron-list#^2.0.1",
+    "google-map": "GoogleWebComponents/google-map#^1.2.0",
+    "paper-dialog": "polymerelements/paper-dialog#^2.0.0",
+    "paper-progress": "polymerelements/paper-progress#^2.0.1",
+    "paper-menu": "PolymerElements/paper-menu#^1.3.0",
+    "google-recaptcha": "Zecat/google-recaptcha#^0.2.1"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  }
+}

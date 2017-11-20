@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="customer-service">
+  <style>
+    :host {
+      display: none;
+    }
+  </style>
+  <template>
+
+	 <iron-ajax
+           id = "ajaxCustomer"
+           url="{{contextPath}}account/getCustomer"
+           handle-as="json" 
+           ></iron-ajax>
+           
+    <iron-ajax
+           id = "ajaxTickectGenerate"
+           url="{{contextPath}}account/validarUsuario"
+           handle-as="json" 
+           method = "POST"
+           ></iron-ajax> 
+           
+     <iron-ajax
+           id = "ajaxActualizarDatosContacto"
+           url="{{contextPath}}account/actualizarDatosContacto"
+           handle-as="json" 
+           method = "PUT"
+           ></iron-ajax>              
+
+  </template>
+  
+    <script>
+    class CustomerService extends Polymer.Element {
+      static get is() { return 'customer-service'; }
+      
+      static get properties(){
+			return {
+					contextPath : {
+						type: String,
+						value : baseRest
+					}
+				}
+      }
+      
+      _esCliente(options){
+          if(!options){ return;}
+          this.$.ajaxCustomer.set( 'params' , options.params);
+          return this.$.ajaxCustomer.generateRequest().completes;
+      }
+
+      generarTicket(options){
+          if(!options){ return;}
+          this.$.ajaxTickectGenerate.set( 'params' , options.params);
+          return this.$.ajaxTickectGenerate.generateRequest().completes;
+      }
+
+      actualizarDatosContacto(options){
+          if(!options){ return;}
+          
+          console.log(options.params)
+          //this.$.ajaxActualizarDatosContacto.body = JSON.stringify(options.params);
+          console.log(options.params);
+          this.$.ajaxActualizarDatosContacto.set( 'params' , options.params);
+          return this.$.ajaxActualizarDatosContacto.generateRequest().completes;
+      }
+      
+      
+    }
+    window.customElements.define(CustomerService.is, CustomerService);
+  </script>
+  
+</dom-module>

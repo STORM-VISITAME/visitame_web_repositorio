@@ -1,0 +1,93 @@
+<link rel="import"
+	href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="oficinas-styles"> <template>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	margin: 0px;
+}
+
+ul {
+	list-style-type: none;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+li img {
+    float: left;
+    margin: 0px 17px 0 0;
+    width: 26px;
+    height: 34px;
+    display: inline-block;
+}
+
+paper-item.segundo .logoEstadoOficina  img{
+    float: left;
+    margin: 0px 17px 0 0;
+    width: 26px;
+    height: 34px;
+    display: inline-block;
+}
+
+
+
+paper-item.segundo .titulo {
+	margin-top: 4px;
+	margin-bottom: 3px;
+	font-size: 3.5vw;
+	font-weight: bold;
+	font-family: 'Roboto', 'Noto', sans-serif;
+	color: #666;
+	padding-right: 15px;
+	display:inline;
+}
+
+paper-item.segundo .subtitulo {
+    font-size: 3.1vw;
+    font-weight: bold;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    color: #ACACAC;
+    padding-right: 10px;
+/*     margin-left: 43px; */
+}
+
+paper-item.segundo .contenedor {
+	padding: 15px;
+	overflow: auto;
+	border-bottom: 1px #e1e1e1 solid;
+	position: relative;
+}
+
+paper-icon-button {
+	position: absolute;
+	right: 0;
+	top: 20px;
+	color: #ACACAC;
+}
+
+@media ( min-width : 500px) {
+	h3 {
+		font-size: 1.6vw !important;
+	}
+	li p {
+		font-size: 1.2vw !important;
+	}
+}
+
+@media ( min-width : 1000px) {
+	paper-item.segundo .titulo {
+		font-size: 1.5vw;
+	}
+	
+	paper-item.segundo .subtitulo {
+	    font-size: 1vw;
+	}
+}
+</style>
+</template> </dom-module>

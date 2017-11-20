@@ -1,0 +1,468 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+ <link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import"	href="../visitame-app-services/configuracion-service.html">
+<link rel="import"	href="../visitame-app-services/customer-service.html">
+ 
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+ 
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animation.html">
+ 
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+ 
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import"	href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../visitame-app-styles/main-style.html">
+<link rel="import" href="../visitame-app-styles/login-style.html">
+<link rel="import" href="../visitame-app-icons/main-icons.html">
+
+<link rel="import" href="recaptcha.html">
+
+<dom-module id="login-view"> 
+<template>
+	<meta charset="utf-8">
+		<customer-service      id="customerService"></customer-service>
+		<configuracion-service id="configuracionService"></configuracion-service>
+		<meta charset="utf-8">
+			<style include="main-styles"></style>
+			<style include="login-style"></style>
+			<paper-spinner class="paper-spinner-loading" id="loadingLista" active></paper-spinner>
+			<app-header reveals fixed>
+				<app-toolbar>
+					<paper-icon-button id = "btnRetornarMain" on-click = "retornarMain" class="back-btn-login-main" icon="chevron-left" aria-label="Atrás" ></paper-icon-button>
+					<div main-title>Ticket de atención</div>
+				</app-toolbar>
+			</app-header>
+			<div class = "content-form" id = "panelForm" >
+				<h3>Genera tu ticket de atención para:</h3>
+				<div class = "content-franga-login">
+					<div class ="up"></div>
+					<div class ="bottom"></div>
+					<div class="box-init">
+						<div class="left">
+							<div class="content">
+								<h3>{{data.description}}</h3>
+								<p>{{data.address}}</p>
+							</div>
+						</div>
+						<div class=right>
+							<img src = "{{icon}}" />
+						</div>
+						<div class="usuario-atencion">
+							<iron-icon icon="my-icons:person"></iron-icon>
+							<div>Número estimado de clientes en espera:  {{data.saturacion}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-reserva">
+					<iron-form id="login">
+						<form method="POST" >
+							<div class="content-input-form">
+								<paper-dropdown-menu label="Tipo documento" required>
+									<paper-listbox slot="dropdown-content" selected="{{tipoDocumento}}" attr-for-selected="item">
+										<template is="dom-repeat" items="{{listTipoDoi}}" >
+											<paper-item  item = "{{item}}" valor = "{{item.name}}">{{item.name}}</paper-item>
+										</template>
+									</paper-listbox>
+								</paper-dropdown-menu>
+							</div>
+							<div class="content-input-form" >
+								<paper-input autofocus always-float-label required error-message$="{{mensaje}}" id="inputNumeroDocumento" pattern="[0-9]*"  maxlength$="[[numeroCaracteres]]" max$="[[numeroCaracteres]]" minlength$="[[numeroCaracteres]]"  label="Ingresar numero" value = "{{numDocumento}}" ></paper-input>
+							</div>
+							<p class="recuerda">
+							(*)Recuerda que la generación del ticket no implica la reserva del
+							 turno de atención en ventanilla. 
+							</p>
+							 <div id="captcha" style="width: 100%;">
+				                  <slot></slot>
+				              </div>
+							<div class="botonera">
+								<paper-button class="reservar" raised on-click="reservar">Generar Ticket</paper-button>
+								<paper-button raised on-click="cancelar">Cancelar</paper-button>
+							</div>
+							<div class="output"></div>
+						</form>
+					</iron-form>
+				</div>
+			</div>
+			<div id = "panelResultTicket" style="display:none;">
+				<div class = "headerResultTicket"></div>
+				<div class = "ticket-body">
+					<div class="content">
+						<h3 class="text-grey-strong" >Hola {{persona.nbNombre}}</h3>
+						<p class="text1 textAfterTitle" >Tu número de atención es:</p>
+						<h2 class="text-celeste textNumTicket">{{ticket}}</h2>
+						<p class="textEnAtencion" >En plataforma</p>
+						<div style="clear: both;"></div>
+						<p class="text-fecha-hora-atencion">Fecha y hora de atención: {{fecHoraAtencion}} hrs</p>
+						<p class="recuerda">(*)Recuerda que está prohibido el uso de celulares dentro de la oficina, 
+						por lo que te recomendamos recuerdes el número de ticket</p>
+						<div class = "content-franga-login">
+							<div class="box-init">
+								<div class="left">
+									<div class="content">
+										<h3>{{data.description}}</h3>
+										<p class="tickectDireccionOficina">{{data.address}}</p>
+									</div>
+								</div>
+								<div class=right>
+									<img src = "{{icon}}" />
+								</div>
+								<div class="usuario-atencion">
+									<iron-icon icon="my-icons:person"></iron-icon>
+									<div>Número estimado de clientes en espera:  {{data.saturacion}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="separador-line"></div>
+						
+						<div class ="panel-constancia">
+						
+							<h3 class="text-grey-strong">Envia tu constancia a tu celular y/o correo electrónico:</h3>
+							
+							<div class="panel-envio-telefono">
+											
+							<div class="content-input-form content-envio-operador" >
+								<paper-dropdown-menu label="Tipo operador" required>
+									<paper-listbox slot="dropdown-content" selected="{{tipoOperador}}" attr-for-selected="item">
+										<template is="dom-repeat" items="{{listTipoOperador}}" >
+											<paper-item item = "{{item}}" valor = "{{item.name}}">{{item.name}}</paper-item>
+										</template>
+									</paper-listbox>
+								</paper-dropdown-menu>
+							</div>
+							
+							<div class="content-input-form content-envio-telefono" >
+							<paper-input value = "{{numeroCelConstancia}}" placeholder="Celular"></paper-input>
+							</div>
+							
+							</div>
+							<div class="panel-envio-telefono">
+							
+							<div class="content-input-form" style="width: 100%;padding-top: 0px;margin-top: 0px;">
+								<paper-input value = "{{emailConstancia}}" placeholder="Correo electrónico"></paper-input>
+							</div>
+							</div>
+							
+							<div class="botonera" style="padding-bottom: 0px;margin-bottom: 0px;">
+								<paper-button raised on-click="enviarConstancia">Enviar constancia</paper-button>
+							</div>
+						
+						</div>
+						
+						<div class="botonera" style="padding-top: 0px;margin-top: 0px;">
+							<paper-button class="reservar" raised on-click="retornarInit">Volver al mapa de oficinas</paper-button>
+						</div>
+					</div>
+					
+					
+					
+				</div>
+			</div>
+		</template>
+  <script>
+  class LoginView extends Polymer.Element {
+      static get is() { return 'login-view'; }
+      static get properties(){
+          return {
+
+          contextPath:{
+              type  : String,
+              value : baseUrl
+              },    
+    	  listTipoDoi : {
+              			  type : Array,
+              			  value : []
+            		    },
+          listTipoOperador : {
+   			  type : Array,
+   			  value : []
+ 		  },
+ 		 tipoOperador : {
+ 			type:Object
+ 	 	  },
+          tipoDocumento: {
+          	type:Object,
+          	observer: '_cambioTipoDocumento'
+          },
+           numeroCaracteres:{
+        	   type:String,
+        	   value:'8'
+           },
+          mensaje: String
+          ,
+          parentApp : {
+				type : Object
+              },
+          data:{
+       	   type : Object,
+       	   value : {}
+          },
+          icon : {
+			type : String
+          },
+          numDocumento:{
+				type : String
+          }, 
+          persona:{
+				type:Object
+              },
+          numeroCelConstancia : {
+               type : String
+          },
+          emailConstancia : {
+               type : String
+          },
+          fecHoraAtencion : {
+              type : String
+          },
+          ticket : {
+             type : String
+          }
+          
+      	 }
+      }
+		
+      setParentApp(parent){
+			this.parentApp = parent;
+	  }
+
+      getParentApp(){
+			return this.parentApp;
+	  }
+
+      renderData(data){
+        this.returnPanelResult();
+        console.log(data);
+		if(data && data.item && data.item.data){
+			this.data = data.item.data;
+		}else{
+			this.data = {};
+			return
+		}
+		if(data && data.icon){
+			this.icon = this.contextPath + dirStatic +'/' + data.icon
+		}
+
+      }
+
+      ready() {
+         super.ready();
+                          
+         var configuracionService = this.$.configuracionService;
+		 var requestTiposDoi = configuracionService.listarTiposDoi({
+				params : {"codigoLista": "PERSON_DOI_TIPO"}
+	     });
+		 requestTiposDoi.then((xhr) => { 
+	    	 this.handleResponse(xhr.response);
+	     });
+
+		 var requestOperadores = configuracionService.listarTiposDoi({
+				params : {"codigoLista": "OPE_TIPO_CEL"}
+	     });
+		 requestOperadores.then((xhr) => { 
+	    	 this.buildCbmOperadores(xhr.response);
+	     });
+     }
+
+      enviarConstancia(){
+
+ 		  let customerService = this.$.customerService;
+		  let numeroDocumento = this.$.inputNumeroDocumento.value;
+		
+		  this.$.loadingLista.active = true;
+		  
+		  let request = customerService.actualizarDatosContacto({
+						  params:{
+									"nroTicket" : this.ticket,
+									"direccion" : this.data.description,
+									"documentNumber": this.numDocumento,
+									"documentType" :  this.tipoDocumento.id,
+									"telefono" : (this.numeroCelConstancia?this.numeroCelConstancia:''),
+									"email" : (this.emailConstancia?this.emailConstancia:''),
+									"tipoOperador" : this.tipoOperador.data.cdAlterno
+						  }
+					}
+		   );
+
+		   request.then((xhr,fail) => {
+			   this.$.loadingLista.active = false;
+			   if(xhr.response.success){
+				   swal(
+	                   		  'Mensaje',
+	                   		  'La constacia se envió de forma correcta.',
+	                   		  'success'
+	                   		); 
+			    }
+		   }).catch((error)=>{
+			   this.$.loadingLista.active = false;
+			   swal(
+                		  'Mensaje',
+                		  'La constacia no pudo ser enviada.',
+                		  'warning'
+                		); 
+		   });
+ 		
+      }
+
+      retornarMain(){
+        this.reset();
+		this.getParentApp().closeLogin();
+      }
+
+      buildCbmOperadores(response) {
+          let data = [];
+          if(response.valores){
+            response.valores.forEach((valor,index)=>{
+                data.push(
+                  {
+                    name : valor.nbEtiqueta,
+                    id   : valor.cdValor,
+                    data : valor
+                  }
+                );
+            });
+            this.$.loadingLista.active = false;
+            this.listTipoOperador = data;
+          
+          }
+      }
+
+
+      handleResponse(response) {
+          let data = [];
+          if(response.valores){
+            response.valores.forEach((valor,index)=>{
+                data.push(
+                  {
+                    name : valor.nbEtiqueta,
+                    id   : valor.cdValor
+                  }
+                );
+            });
+            this.$.loadingLista.active = false;
+            this.listTipoDoi = data;
+          
+          }
+      }
+      
+      _cambioTipoDocumento(){
+          
+    	 if(this.tipoDocumento === "EXT"){
+    		  this.numeroCaracteres="8";
+    		  
+    	  }else{
+    		  this.numeroCaracteres="8";
+    	  }
+    	  
+    	  this.$.inputNumeroDocumento.focus(); 
+    	  
+    	  
+      }
+
+      showPanelResult(){
+
+		 this.$.panelForm.style.display = 'none';
+		 this.$.panelResultTicket.style.display = 'block';
+    	  
+      }
+
+      retornarInit(){
+    	  this.cancelar();
+    	  setTimeout(()=>{
+    		  this.returnPanelResult();
+          },100);
+    	  
+    	 
+     }
+
+      returnPanelResult(){
+    	 this.$.panelResultTicket.style.display = 'none';
+ 		 this.$.panelForm.style.display = 'block';
+      }
+      
+      reservar(){
+     	  if(this.$.inputNumeroDocumento.validate()){
+
+     		  let captchaResponse = document.querySelector('#recaptchaLogin').response;
+
+      		  if(!captchaResponse){
+      			swal(
+                   		  'Alerta',
+                   		   'No se ha verificado el captcha.',
+                   		  'warning'
+                   		);
+  				return;
+          	  }
+         	  
+    	  	  let customerService = this.$.customerService;
+    		  let numeroDocumento = this.$.inputNumeroDocumento.value;
+
+    		  this.$.loadingLista.active = true;
+    		  
+			  let requestEsCliente = customerService.generarTicket({
+    						params : {
+    							"documentNumber"	:	this.numDocumento,
+    							"documentType"		:  	this.tipoDocumento.id,
+    							"desDocumentType"	: 	this.tipoDocumento.name,
+    							"captchaResponse"	:   captchaResponse,
+    							"ipRemote"			:	IP_REMOTE,
+    							"codOficina"		:	this.data.codoficina
+    						}
+    			     });
+    				 requestEsCliente.then((xhr,fail) => { 
+        				 console.log(xhr.response);
+        				 this.$.loadingLista.active = false;
+        				 if(xhr.response && xhr.response.success){
+        					 this.persona = xhr.response.persona;
+        					 this.ticket = xhr.response.ticketResponse.ticket;
+        					 this.fecHoraAtencion = moment(new Date(xhr.response.ticketResponse.fecGenerado)).format("DD/MM/YYYY - HH:mm");
+            				 this.showPanelResult();
+            			 }else{
+            				document.querySelector('#recaptchaLogin').reset();
+            			 }
+            		}).catch((reason) => {
+    			    	 console.log(reason);
+    			    	 this.$.loadingLista.active = false;
+    			    	 document.querySelector('#recaptchaLogin').reset();
+    			     } );
+    		  
+    	  }else{
+    		  this.mensaje="*Campo obligatorio, ingresar solo numeros.";
+    	  } 
+    	  
+      }
+      
+      reset(){
+    	  this.$.inputNumeroDocumento.value="";
+    	  this.$.inputNumeroDocumento.invalid = false;
+
+    		this.tipoOperador = {};
+    		this.numeroCelConstancia = '';
+    		this.emailConstancia = '';
+    		this.numDocumento = '';
+     		this.tipoDocumento = {};
+
+     		document.querySelector('#recaptchaLogin').reset();
+    	  
+    	  
+      }
+
+      cancelar(){
+
+    	  SyncObjects(()=>{
+    		  	this.reset();
+    	    	this.getParentApp().closeLogin();  
+    	  }); 
+      }
+      
+    }
+    window.customElements.define(LoginView.is, LoginView);
+  </script>
+</dom-module>

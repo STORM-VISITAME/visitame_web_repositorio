@@ -1,0 +1,43 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="geolocalizacion-service">
+  <style>
+    :host {
+      display: none;
+    }
+  </style>
+  <template>
+
+	 <iron-ajax
+           id = "ajaxPois"
+           url="{{contextPath}}geolocalizacion/pois"
+           handle-as="json" 
+           ></iron-ajax>
+
+  </template>
+  
+    <script>
+    class GeolocalizacionService extends Polymer.Element {
+      static get is() { return 'geolocalizacion-service'; }
+
+      static get properties(){
+			return {
+					contextPath : {
+						type: String,
+						value : baseRest
+					}
+				}
+      }
+      
+      listarOficinas(options){
+          if(!options){ return;}
+          this.$.ajaxPois.set( 'params' , options.params);
+          return this.$.ajaxPois.generateRequest().completes;
+      }
+      
+    }
+    window.customElements.define(GeolocalizacionService.is, GeolocalizacionService);
+  </script>
+  
+</dom-module>

@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="configuracion-service">
+  <style>
+    :host {
+      display: none;
+    }
+  </style>
+  <template>
+
+	 <iron-ajax
+           id = "ajaxValores"
+           url="{{contextPath}}configuracion/valores"
+           handle-as="json" 
+           ></iron-ajax>
+  </template>
+  
+    <script>
+    class ConfiguracionService extends Polymer.Element {
+      static get is() { return 'configuracion-service'; }
+
+      static get properties(){
+			return {
+					contextPath : {
+						type: String,
+						value : baseRest
+					}
+				}
+      }
+
+      ready(){
+    	  super.ready();
+       }
+      
+      listarTiposDoi(options){
+          if(!options){ return;}
+          this.$.ajaxValores.set( 'params' , options.params);
+          return this.$.ajaxValores.generateRequest().completes;
+      }
+
+      listarParametrosByLista(codigoLista){
+    	  if(!codigoLista){ return;}
+          this.$.ajaxValores.set( 'params' , { codigoLista : codigoLista});
+          return this.$.ajaxValores.generateRequest().completes;
+      }
+      
+    }
+    window.customElements.define(ConfiguracionService.is, ConfiguracionService);
+  </script>
+  
+</dom-module>

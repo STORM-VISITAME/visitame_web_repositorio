@@ -1,0 +1,317 @@
+<link rel="import"	href="../../bower_components/polymer/polymer-element.html">
+<link rel="import"	href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import"	href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import"	href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../visitame-app-icons/main-icons.html">
+<link rel="import" href="../visitame-app-styles/main-style.html">
+<link rel="import" href="../visitame-app-styles/oficinas-style.html">
+<link rel="import"	href="../visitame-app-services/geolocalizacion-service.html">
+<link rel="import"	href="../visitame-app-views/mapa.html">
+<link rel="import" href="../visitame-app-commons/parametros-commons.html">
+
+<dom-module id="unidad-atencion-view"> 
+
+<template>
+ <meta charset="utf-8">
+<style include="main-styles">
+mapa-view{
+display: none;
+}
+
+</style>
+
+<style include="oficinas-styles">
+</style>
+<!-- Uso de Parametros -->
+<parametros-commons id = "parametrosConfiguracion" ></parametros-commons> 
+<geolocalizacion-service id="geoLocalizacionService"></geolocalizacion-service>
+
+<div class="main-list-oficina" id="containerOficina">
+	<paper-spinner class="paper-spinner-loading" id="loadingLista" active class="thick"></paper-spinner>
+	<div class = "mensaje-no-results" style = "display:none;" id = "noResultList" >La busqueda no retorno resultados.</div>
+	<paper-menu id = "oficinasRecords"  attr-for-selected="data-unidad" selected="{{unidadSeleccionada}}" class="principal">
+		<template is="dom-repeat" items="{{listOficinas}}" >
+			<paper-item data-unidad="{{item}}" class="segundo">
+				<div style="width: 100%;" class="contenedor">
+					<div style="float:left" class="logoEstadoOficina">
+						<img src="{{pathParent}}images/icon_{{item.iconColor}}" class="logoEstadoOficina"/>	
+					</div>
+					<div style="width: 80%; float:left">
+						<label class="titulo"    style="width: 100%; display: block; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;">{{item.name}}</label>
+						<label class="subtitulo" style="width: 100%; display: block; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;">{{item.description}}</label>	
+					</div>
+					<paper-icon-button icon="my-icons:chevron-right"></paper-icon-button>
+				</div>
+			</paper-item>
+		</template>
+	</paper-menu>
+	
+	<mapa-view id = "mapaOficinas"></mapa-view>
+	
+</div>
+</template> <script>
+    class UnidadAtencionView extends Polymer.Element {
+      static get is() { return 'unidad-atencion-view'; }
+
+      static get properties(){
+        return {
+              pathParent : {
+                  type : String,
+                  value :dirStatic+'/'
+              },
+              listOficinas : {
+                type : Array,
+                value : []
+              },
+              tipoUnidad:{
+            	type:String
+              },
+	          errorDescripcion : {
+		           type : String
+		      },
+              seleccion:{
+            	  type:String,
+                  observer: '_seleccionar',
+              }
+              ,
+              parentApp : {
+					type: Object
+              },
+              mapaOficina : {
+					type: Object
+              },
+              unidadSeleccionada:{
+            	    type: Object,
+            	    observer: 'detalleUnidad',
+              }
+        }
+      }
+
+      setParentApp(parent){
+			this.parentApp = parent;
+	  }
+
+      getParentApp(){
+			return this.parentApp;
+	  }
+      
+      constructor() {
+    	    super();
+    	  }
+
+      formatoDistancia(metros){
+          if(!metros) { return ''; }
+          metros = parseFloat(metros);
+          if(metros >= 1000){
+				return parseFloat(metros/1000).toFixed(1)+' KM';
+              }else{
+            	return metros.toFixed(1)+' M'  
+          }
+      }	
+
+      cargarMapa(center){
+    
+         if(this.$.mapaOficinas.style.display == 'block'){
+        	  this.$.oficinasRecords.style.display = 'block';
+    		  this.$.mapaOficinas.style.display = 'none';
+            }else{
+              this.$.oficinasRecords.style.display = 'none';
+       		  this.$.mapaOficinas.style.display = 'block';
+          } 
+
+          this.$.mapaOficinas.setMarkers(this.listOficinas,center);
+          this.$.mapaOficinas.tipoUnidad = this.tipoUnidad;
+    	 
+      }
+      
+      detalleUnidad(){
+    	  if(this.unidadSeleccionada != null){
+	    	  //console.log(this.unidadSeleccionada);
+	    	  var center;
+	    	  if(this.unidadSeleccionada.latitude !== null && this.unidadSeleccionada.longitude !== null){
+	    	  	center= {latitude : parseFloat(this.unidadSeleccionada.latitude), longitude: parseFloat(this.unidadSeleccionada.longitude)};
+	    	  }
+	    	  this.cargarDetalleMapa(center);
+	    	  this.$.mapaOficinas.verDetalleOficina(this.unidadSeleccionada);
+	    	  this.unidadSeleccionada = null;
+    	  }
+      }
+      
+	 cargarDetalleMapa(center){
+    	  
+          if(this.$.mapaOficinas.style.display == 'block'){
+        	  this.$.oficinasRecords.style.display = 'block';
+    		  this.$.mapaOficinas.style.display = 'none';
+            }else{
+              this.$.oficinasRecords.style.display = 'none';
+       		  this.$.mapaOficinas.style.display = 'block';
+          }
+
+          this.$.mapaOficinas.setMarkers(this.listOficinas,center);
+          
+    	 
+      }
+      
+      resetearMapa(){
+    	  if(this.$.mapaOficinas.style.display == 'block'){
+        	  this.$.oficinasRecords.style.display = 'block';
+    		  this.$.mapaOficinas.style.display = 'none';
+            }
+      }
+      
+      handleResponse(response,reload) {
+    	this.getParentApp().$.btnChangeMapaView.disabled = true;
+        let data = [];
+        if(response.data.pois.length > 0){
+          let i = 1;
+          let iconColor;
+          response.data.pois.forEach((poi,index)=>{
+			
+              if(this.tipoUnidad == "C" || this.tipoUnidad == "A" || !poi.iconoSaturacion || (this.$.parametrosConfiguracion.getParametros() && this.$.parametrosConfiguracion.getParametros().viewMapOnly == '1')){
+				iconColor = 'azul.png';
+              }else{
+            	iconColor = poi.iconoSaturacion;
+              }
+
+              var tituloUnidad = this.tipoUnidad === "O" ? "OFICINAS " : (this.tipoUnidad === "C" ? "CAJEROS " : "AGENTES ");
+              data.push(
+                {
+                  name :  tituloUnidad + poi.description + ' '+this.formatoDistancia(poi.distance),
+                  description : poi.address,
+                  iconColor : iconColor,
+                  latitude : poi.latitude,
+                  longitude : poi.longitude,
+                  data: poi,
+                  type: this.tipoUnidad 
+                }
+              );
+              i++;
+          });
+         
+          this.listOficinas = data;
+        }else{
+        	this.$.noResultList.style.display = 'block';
+        }
+
+        this.$.loadingLista.active = false;
+        this.getParentApp().$.btnChangeMapaView.disabled = false;
+        this.$.loadingLista.style.zIndex = '-1';
+        
+    	
+
+      }
+      
+      getMap(){
+    	  return  this.$.mapaOficinas.getMap();
+      }
+
+      reloadData(latitud , longitud , tipo ,reaload){
+    	  this.$.loadingLista.active = true;
+    	  this.getParentApp().$.btnChangeMapaView.disabled = true;
+    	  this.clearListOficinas();
+    	  var geolocalizacionService = this.$.geoLocalizacionService;
+		     var requestOficinas = geolocalizacionService.listarOficinas({
+					params : {
+								"latitud": latitud,
+							  	"longitud": longitud,
+						    	"radius": this.$.parametrosConfiguracion.getParametros().radAlcance, 
+						    	"type": tipo || this.tipoUnidad
+						    }
+			});
+		     requestOficinas.then((xhr) => {
+				this.handleResponse(xhr.response,true);
+				this.$.mapaOficinas.setReloadMarkers(this.listOficinas);
+				
+	/* 			if(reaload){
+					
+					this.$.mapaOficinas.refrescarMapa(this.listOficinas);
+					
+					this.$.mapaOficinas.buildMarkers();
+					
+					this.listOficinas.forEach((itemData)=>{
+						
+						if(this.$.mapaOficinas.detalleOficina.idPoi == itemData.data.idPoi){
+							this.$.mapaOficinas.detalleOficina = itemData.data;
+							this.$.mapaOficinas.item = itemData;
+						}
+						
+					});
+					
+					
+				
+				} */
+				
+		    });
+    	  
+      }
+      
+      loadMapa(latitud,longitud,tipo){
+			
+    	  SyncObjects(()=>{
+        		//console.log(this.$.parametrosConfiguracion.getParametros())
+        		this.resetearMapa();
+				this.reloadData(latitud , longitud , tipo , false);
+
+          });	
+    	  
+      }
+  
+      _seleccionar(view) {
+
+    	  if(this.tiposUnidad){
+	    	  if(this.tiposUnidad.oficinas == view){
+	    		  this.tipoUnidad = 'O';
+	          }else if(this.tiposUnidad.cajeros == view){
+	        	  this.tipoUnidad = 'C';
+	          }else if(this.tiposUnidad.agentes == view){
+	        	  this.tipoUnidad = 'A';
+	          }
+    	  }
+          
+    	  SyncObjects(()=>{
+          	this.loadMapa(this.$.parametrosConfiguracion.getParametros().posicionActual.latitude,this.$.parametrosConfiguracion.getParametros().posicionActual.longitude);
+    	  });
+      }
+      getOficinasxUbicacion(latitude, longitude){
+		  this.$.noResultList.style.display = 'none';
+    	  if(!this.$.loadingLista.active){
+    		  this.$.loadingLista.active = true;
+    		  this.getParentApp().$.btnChangeMapaView.disabled = true;
+    		  this.$.loadingLista.style.zIndex = '999';
+          }
+    	  
+    	  this.loadMapa(latitude,longitude);
+      }
+     
+      getMap(){
+    	  return this.$.mapaOficinas.getMap();
+	   }
+      
+      getMapaOficina(){
+    	  return this.$.mapaOficinas;
+      }
+      
+      clearMapa(){
+    	  return this.$.mapaOficinas.clearMap();
+      }
+      clearListOficinas(){
+    	  this.listOficinas = [];
+      }
+      clearDetalleOficina(){
+    	  this.$.mapaOficinas.cerrarDetalleVistaRapido();
+      }
+      
+      ready(){
+			super.ready();
+			this.$.noResultList.style.display = 'none';
+			SyncObjects(()=>{
+				this.getParentApp().present();
+				this.$.mapaOficinas.setParentApp(this.getParentApp());
+				this.$.mapaOficinas.setUnidadAtencion(this);
+	 	 	});
+      }
+      
+    }
+
+    window.customElements.define(UnidadAtencionView.is, UnidadAtencionView);
+  </script> </dom-module>
