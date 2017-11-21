@@ -196,9 +196,25 @@ display: none;
         this.$.loadingLista.active = false;
         this.getParentApp().$.btnChangeMapaView.disabled = false;
         this.$.loadingLista.style.zIndex = '-1';
-        
-    	
 
+        /** PI6 S2 AJUSTE APP VISITAS - VISTA PRIMERO MAPA **/ 
+        this.$.oficinasRecords.style.display = 'none';
+
+        if(response.data.pois.length == 0){
+        	this.$.mapaOficinas.style.display = 'none';
+        }else{
+        	this.$.mapaOficinas.style.display = 'block';
+        }
+		
+		 SyncObjects(()=>{
+			google.maps.event.trigger(this.getMap(), "resize");
+			this.$.mapaOficinas.clearMarkers();
+			this.$.mapaOficinas.buildMarkers();
+			this.$.mapaOficinas.centrarUbicacion();
+			
+		 });
+		 /** <--END **/
+		
       }
       
       getMap(){
