@@ -87,12 +87,13 @@
       	</app-toolbar>
         
         <app-toolbar class="ver buscador"  middle-justify="center">
-            <paper-icon-button icon="[[iconoMapa]]" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
+            
             <div class="buscador-contenedor">
             	<paper-input  id="buscador" class="buscador-input" no-label-float placeholder="Buscar direcci&#243;n">
             		<iron-icon class="iconoBuscar" icon="search"  slot="suffix"></iron-icon>
             	</paper-input>
             </div>
+            <paper-icon-button icon="[[iconoMapa]]" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
         </app-toolbar>
       </app-header>
 
