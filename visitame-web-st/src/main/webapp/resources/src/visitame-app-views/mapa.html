@@ -426,7 +426,7 @@
 							   setTimeout(() => {
 							   	   google.maps.event.trigger(this.mapPois, "resize");	
 							   		this.mapPois.panTo(marker.getPosition());
-							   		this.mapPois.setZoom(17);
+							   		this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 							   }, 600);
 							   
 		        			   this.detalleOficina = item.data;
@@ -445,17 +445,21 @@
 	     }
 		   
 	     setMarkers(data,center){
-	    	
-	    	 this.clearMarkers();
+		    console.log('center');
+	    	console.log(center)
+	    	//TODO evaluar si va esta logica verificar si es q los markers varian mucho en el tiempo
+	    	//ademas de si es necesario sobre cargar con esta logica la performance
+	    	  /* this.clearMarkers();
 				if(this.mapPois){
 						var map = this.mapPois;
-						google.maps.event.trigger(map, "resize");
+						//google.maps.event.trigger(map, "resize");
 						this.dataMarkers = data;
 				
 						this.buildMarkers();
-			
-				      	setTimeout(() => {
-							map.setZoom(16);
+						
+						SyncObjects(() => {
+							console.log('zoom->'+this.$.parametrosConfiguracion.getParametros().zoomMapGen);
+							map.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 							var centroide = null;
 							if(center && center.latitude && center.longitude){
 								centroide = {lat: center.latitude, lng: center.longitude};
@@ -464,9 +468,9 @@
 							}
 							
 							map.setCenter(centroide);
-						}, 100);
+						});
 			          
-					}
+					}  */
 	     }
 	     
 	     verDetalleOficina(unidad){
@@ -484,7 +488,7 @@
 			   setTimeout(() => {
 			   	   google.maps.event.trigger(this.mapPois, "resize");	
 			   	this.mapPois.setCenter(centroide);
-			   	this.mapPois.setZoom(17);
+			   	this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 			   }, 600);   
 			   this.detalleOficina = unidad.data;
  			   this.item = unidad;
@@ -505,7 +509,7 @@
 				   setTimeout(() => {
 					   google.maps.event.trigger(this.mapPois, "resize");	
 					   this.centrarOrigen();
-					   this.mapPois.setZoom(16);
+					   this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 				   }, 800);
 	    	   }else{
 	    		 let latitud  = this.getParentApp().center.latitude;
@@ -556,14 +560,16 @@
 	    	 
 	     }
 	     centrarUbicacion() {
+		     
 					var center = {lat: this.$.parametrosConfiguracion.getParametros().posicionActual.latitude, lng: this.$.parametrosConfiguracion.getParametros().posicionActual.longitude};
 					this.mapPois.setCenter(center);
+	
+					
 	     }
 	     
 	     centrarOrigen(){
 	    	 var center = {lat: this.getParentApp().center.latitude, lng: this.getParentApp().center.longitude};
 			 this.mapPois.setCenter(center);
-	    	 console.log(this.getParentApp().center);
 	     }
 	     
 	     setReloadMarkers(data){
@@ -629,20 +635,21 @@
 			    }else{
 			    	zoom = 16;
 				}
+
+	            console.log(zoom);
 	            
 	            SyncObjects(()=>{
 					this.altoHeader   = this.getParentApp().altoHeader;
 					this.altoPantalla = this.getParentApp().altoPantalla;
 					this.altoTotal    = this.altoPantalla - this.altoHeader;
 					this.$.mapContent.style.height = this.altoTotal+"px";
-					
 					 if(this.$.parametrosConfiguracion.getParametros() &&this.$.parametrosConfiguracion.getParametros().viewMapOnly == '1'){
 			            	this.$.btnReservarTicket.style.display = 'none';
 			         }
 					
 	            });
 				
-	           
+		           
 	            this.mapPois =new google.maps.Map(this.$.mapContent, {
 	                center: center,
 	                zoom: zoom,
@@ -650,10 +657,9 @@
 	                mapTypeControl: false,
 	                scaleControl: false,
 	                streetViewControl: false,
-	                fullscreenControl: false
-// 	                overviewMapControl: false,
-// 	                rotateControl: false
-	                
+	                fullscreenControl: false,
+	                draggable: true,
+	                gestureHandling: 'greedy'
 	              });
 	     }}
 	    

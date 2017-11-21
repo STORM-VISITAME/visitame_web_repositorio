@@ -86,10 +86,10 @@
     	console.log("error" + error.code); 
  	  	switch(error.code) {
   	    	case error.PERMISSION_DENIED:
-  	    		this.errorDescripcionGps = "Usuario deneg&#243; utilizar la ubicación GPS."
+  	    		this.errorDescripcionGps = "Usuario denegó utilizar la ubicación GPS."
     	      break;
     	    case error.POSITION_UNAVAILABLE:
-    	    	this.errorDescripcionGps = "La informaci�n de ubicación es inhabilitada."
+    	    	this.errorDescripcionGps = "La información de ubicación es inhabilitada."
     	      break;
     	    case error.TIMEOUT:
     	    	this.errorDescripcionGps = "La solicitud para obtener la ubicaci�n del usuario se ha agotado."
@@ -107,7 +107,7 @@
      }
 
     refreshGeLocation(){
-    	/* SyncObjects(()=>{
+    	SyncObjects(()=>{
     		navigator.geolocation.getCurrentPosition(
 					(position) => {
 						this.parametros = this.parametros || {};
@@ -125,15 +125,15 @@
 						enableHighAccuracy: true
 					}
     	    	);
-    	}); */
+    	}); 
 
     	//-12.092812, -77.020578
 
-    	this.parametros = this.parametros || {};
+    	/* this.parametros = this.parametros || {};
 		this.parametros.posicionActual = {
 					latitude : -12.092812,
 					longitude : -77.020578
-				};
+				}; */
     	
     }
 
@@ -143,12 +143,12 @@
 
 		    if(xhr.response.valores){ 
 		    	xhr.response.valores.forEach((item) => {
-		    		this.parametros[this.formatCamell(item.cdAlterno)] = item.nbValor;
+		    		this.parametros[this.formatCamell(item.cdAlterno)] = (isNaN(item.nbValor)?item.nbValor:parseFloat(item.nbValor));
 				});
 		    }
 
 	    	SyncObjects(()=>{
-	    		/* navigator.geolocation.getCurrentPosition(
+	    		navigator.geolocation.getCurrentPosition(
 				(position) =>{
     				this.parametros = this.parametros || {};
     				this.parametros.posicionActual = {
@@ -164,12 +164,12 @@
     		    	setTimeout(()=>{ if(loading){ loading.style.display = 'none'; } },500)
     		    	this.showErrorGps(error);
 	    		}
-	    	); */
-	    		this.parametros = this.parametros || {};
+	    	); 
+	    	/* 	this.parametros = this.parametros || {};
 	    		this.parametros.posicionActual = {
 	    					latitude : -12.092812,
 	    					longitude : -77.020578
-	    				};
+	    				}; */
 
 	    		localStorage.setItem(this.nameParametros || 'parametros', JSON.stringify(this.parametros));
 		    	setTimeout(()=>{ if(loading){ loading.style.display = 'none'; } },500)
