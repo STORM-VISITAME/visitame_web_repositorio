@@ -96,7 +96,7 @@
             <!--
             <paper-icon-button icon="[[iconoMapa]]" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
         	-->
-        	<paper-icon-button src="icon-map.png" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
+        	<paper-icon-button src="{{pathResources}}/images/icon-map.png" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
         </app-toolbar>
       </app-header>
 
@@ -152,6 +152,7 @@
              iconoMapa: {
            	  type: String,
            	  value: 'maps:streetview'
+               	  
              },
              center :{
                  type: Object,
