@@ -149,7 +149,7 @@
              subroute: String,
              iconoMapa: {
            	  type: String,
-           	  value: 'maps:edit-location'
+           	  value: 'maps:point'
                	  
              },
              center :{
@@ -288,11 +288,11 @@
          }
          
          changeIconMapa(){
-      		if(this.iconoMapa === 'maps:edit-location'){
+      		if(this.iconoMapa === 'maps:point'){
        			this.iconoMapa = 'list';
        			this.mapaVisible = true;
        	  	}else{
-       	  		this.iconoMapa = 'maps:edit-location';
+       	  		this.iconoMapa = 'maps:point';
        	  		this.mapaVisible = false;
        	  	}
          }
