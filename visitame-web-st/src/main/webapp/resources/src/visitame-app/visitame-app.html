@@ -72,10 +72,10 @@
         <app-toolbar>
           <!--  <paper-icon-button class="ver" icon="my-icons:menu" drawer-toggle></paper-icon-button>-->
           <paper-icon-button class="back-btn" icon="arrow-back" aria-label="Atrás" on-click="_regresar"></paper-icon-button>
-          <div main-title style="text-align: center;">Visítame</div>
-          
+          <div main-title style="text-align: center;">Localizar</div>
+          <!--
           <paper-icon-button icon="refresh" aria-label="Actualizar" on-click="_reload"></paper-icon-button>
-          
+          -->
       	</app-toolbar>
 
       	<app-toolbar class="ver toolbarNavegador" primary>
@@ -87,12 +87,16 @@
       	</app-toolbar>
         
         <app-toolbar class="ver buscador"  middle-justify="center">
-            <paper-icon-button icon="[[iconoMapa]]" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
+            
             <div class="buscador-contenedor">
             	<paper-input  id="buscador" class="buscador-input" no-label-float placeholder="Buscar direcci&#243;n">
             		<iron-icon class="iconoBuscar" icon="search"  slot="suffix"></iron-icon>
             	</paper-input>
             </div>
+            <!--
+            <paper-icon-button icon="[[iconoMapa]]" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
+        	-->
+        	<paper-icon-button src="{{pathResources}}/images/icon-map.png" id = "btnChangeMapaView" disabled = "true" class="boton-mapa" on-click = "_verMapa" style="color:white;"></paper-icon-button>
         </app-toolbar>
       </app-header>
 
@@ -148,6 +152,7 @@
              iconoMapa: {
            	  type: String,
            	  value: 'maps:streetview'
+               	  
              },
              center :{
                  type: Object,
