@@ -195,6 +195,18 @@
     		--iron-icon-fill-color:green;
     	}
     	
+    	#detalleMinimizado{
+    		width: 94%;
+    		margin: 0 2%;
+    		position: fixed;
+    		bottom: 1%;
+    		background: #fff;
+    		border-radius: 5px;
+    		padding: 5px;
+			z-index: 10;
+    		
+    	}
+    	
 /*     	.windowComoLlegar{
 	    	position: absolute;
 	    	width: 100%;
@@ -251,10 +263,14 @@
 				</div>
 			</div>
 		</div>
-		
 	<!-- 	<div id = "iframeComoLlegar"  class = "windowComoLlegar" >
 			<iframe src="http://maps.google.com/maps?saddr=-12.0943087,-77.0206364&daddr=-12.0939,-77.0213&output=embed" height="100%" width="100%" allowfullscreen></iframe>
-		</div>  -->
+			-->
+		</div>  
+		
+		<div id = "detalleMinimizado">
+		Hola
+		</div>
 		
 	</template>
    
@@ -333,11 +349,23 @@
 	              dirResources:{
 	            	  type: String,
 	            	  value:dirStatic  
-		          }
+		          },
+	              origenSeleccion:{
+	              	 type: String,
+	              	 value:'map'
+	                }
 				  
 	        }
 	      }
 
+	      setOrigenSeleccion(origen){
+				this.origenSeleccion = origen;
+		  }
+
+	      getOrigenSeleccion(){
+				return this.origenSeleccion;
+		  }
+	      
 	      setParentApp(parent){
 				this.parentApp = parent;
 		  }
@@ -411,10 +439,14 @@
 	        	        });
 
 	        		  marker.addListener('click', (e) => {
+	        			  console.log('seleccino desde marker')
 	        			   if(item.type == 'O'){
+	        				   this.setOrigenSeleccion('map');
 								//console.log(this.getParentApp());
 		        			   //this.getParentApp().showLogin();
-		        			   var alto = this.altoTotal/4;
+		        			   
+		        			   
+		        			  /*  var alto = this.altoTotal/4;
 		        			   var altoDetalle = alto * 3;
 		        			   this.$.divCentrarGps.style.display = 'none';
 		        			   this.$.mapContent.style.height = alto+"px";
@@ -434,7 +466,7 @@
 		        			   this.eventoSeleccionadoMarker = e;
 		        			   this.mapPois.scrollwheel = false;
 		        			   this.mapPois.draggable = false;
-		        			   this.mapPois.zoomControl  = false;
+		        			   this.mapPois.zoomControl  = false; */
 	        			   } 
 	        			   
 	        		  });
@@ -445,8 +477,8 @@
 	     }
 		   
 	     setMarkers(data,center){
-		    console.log('center');
-	    	console.log(center)
+		  /*   console.log('center');
+	    	console.log(center) */
 	    	//TODO evaluar si va esta logica verificar si es q los markers varian mucho en el tiempo
 	    	//ademas de si es necesario sobre cargar con esta logica la performance
 	    	  /* this.clearMarkers();
@@ -474,6 +506,9 @@
 	     }
 	     
 	     verDetalleOficina(unidad){
+
+	    	 console.log('seleccino desde listado');
+		     
 	    	 if(unidad.type == 'O'){
 	    		 
  			   var alto = this.altoTotal/4;
@@ -501,6 +536,9 @@
 	     
 	     
 	     cerrarDetalle(){
+
+	    	 //console.log('origen->'+this.getOrigenSeleccion());
+		     
 	    	   if(this.viaDetalle === "mapa"){	
 				   this.$.mapContent.style.height = this.altoTotal+"px";
 				   this.$.detalle.style.height = "0px";	    	 
@@ -512,11 +550,11 @@
 					   this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 				   }, 800);
 	    	   }else{
-	    		 let latitud  = this.getParentApp().center.latitude;
+	    		 /* let latitud  = this.getParentApp().center.latitude;
 	    		 let longitud = this.getParentApp().center.longitude; 
-		    	 this.getUnidadAtencion().loadMapa(latitud,longitud,this.item.type);
+		    	 this.getUnidadAtencion().loadMapa(latitud,longitud,this.item.type);*/
 		    	 this.viaDetalle = "mapa";
-		    	 this.cerrarDetalleVista();
+		    	 this.cerrarDetalleVista(); 
 	    	   }
 	     }
 	     
@@ -528,6 +566,14 @@
 			    	this.$.detalle.style.height = "0px";
 					this.$.detalle.style.overflow= "hidden";
 	  			    this.$.divCentrarGps.style.display = 'block';
+	  			  
+	  			  setTimeout(() => {
+	  			  	google.maps.event.trigger(this.mapPois, "resize");
+	  			  	if(this.origenSeleccion == 'list'){
+	  			  	this.getUnidadAtencion().showListadoUnidadAtencion();
+	  			  		this.getParentApp().setIconMap();
+			  		}	
+	  			   }, 800);
 			   }
 	     }
 	     
@@ -636,7 +682,7 @@
 			    	zoom = 16;
 				}
 
-	            console.log(zoom);
+	           // console.log(zoom);
 	            
 	            SyncObjects(()=>{
 					this.altoHeader   = this.getParentApp().altoHeader;
