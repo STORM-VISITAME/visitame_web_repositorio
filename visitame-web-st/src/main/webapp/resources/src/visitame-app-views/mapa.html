@@ -230,6 +230,8 @@
 		<div id="contenedorMapaDetalle">
 			<div id = "mapContent"></div>
 			<div id="detalle" class="contenedor" style="height: 0px; overflow:hidden;">
+				<paper-icon-button src="{{pathResources}}/images/iconox.png" class="icono" on-click="cerrarDetalle" style="width:30%; margin-left: 80%" ></paper-icon-button>
+				
 				<div style = 'width:  90%; display: block; padding: 5%;'>
 				<div  class="bloque">
 					<label style="width: 100%;" class="titulo">{{detalleOficina.address2}}</label>
@@ -261,7 +263,7 @@
 				</div>
 				<div class="botonera" >
 					<paper-button id= "btnReservarTicket" class="boton boton-ticket" style="width:100%; margin-bottom:2%;" on-click="abrirLogin">Reservar ticket de atención</paper-button>
-					<paper-button class="boton" style="width:100%;" on-click="cerrarDetalle">Cancelar</paper-button>
+					<!--<paper-button class="boton" style="width:100%;" on-click="cerrarDetalle">Cancelar</paper-button> -->
 				</div>
 			</div>
 		</div>
