@@ -1,0 +1,204 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import"	href="../visitame-app-services/configuracion-service.html">
+
+<dom-module id="parametros-commons">
+  <style>
+    :host {
+     display: none;
+    }
+    
+
+    
+  </style>
+  <template>
+	<configuracion-service id= "configuracionService" ></configuracion-service>
+  </template>
+  
+    <script>
+    class ParametrosCommons extends Polymer.Element {
+      static get is() { return 'parametros-commons'; }
+
+      static get properties(){
+			return {
+					codListaParametros : {
+						type : String,
+						value : 'PARAMETROS_INIT'
+					}
+					,
+					nameParametros : {
+						type : String,
+						value : 'parametroConfig'
+					}
+					,
+					parametros : {
+							type : Object,
+							value: {}
+					}
+					,
+					errorDescripcionGps :{
+							type : String,
+							value : ''
+					}
+					,
+					tituloErrorDescripcionGps :{
+							type : String,
+							value : 'Error GPS'
+					}
+				}
+      }
+
+      firtsLeterUpper(t){
+		return t.substr(0,1).toUpperCase()+t.substr(1);
+      }
+      
+      formatCamell(value){
+		if(!value){ return value;}
+
+		let arrTemp = value.split('_');
+
+		if(arrTemp && arrTemp.length > 0){
+			if(arrTemp.length == 1){
+				return value;
+			}else{
+				let camell = '';
+				arrTemp.forEach((c,i) => {
+					if(i == 0){
+						camell+=c.toLowerCase();
+					}else{
+						camell+=this.firtsLeterUpper(c.toLowerCase());
+					}
+				});
+				return camell;
+			}
+			
+		}else{
+			return value;
+		}
+		
+      }
+
+    getParametros(){
+         if(!localStorage.getItem(this.nameParametros)) {return null};
+    	return JSON.parse(localStorage.getItem(this.nameParametros));
+    }  
+
+    showErrorGps(error){
+    	console.log("error" + error.code); 
+ 	  	switch(error.code) {
+  	    	case error.PERMISSION_DENIED:
+  	    		this.errorDescripcionGps = "Usuario denegó utilizar la ubicación GPS."
+    	      break;
+    	    case error.POSITION_UNAVAILABLE:
+    	    	this.errorDescripcionGps = "La información de ubicación es inhabilitada."
+    	      break;
+    	    case error.TIMEOUT:
+    	    	this.errorDescripcionGps = "La solicitud para obtener la ubicaci�n del usuario se ha agotado."
+    	      break;
+    	    case error.UNKNOWN_ERROR:
+    	    	this.errorDescripcionGps = "Un error desconocido ocurrió."
+    	      break;
+    	}
+
+ 	  	swal(
+				  this.tituloErrorDescripcionGps,
+				  this.errorDescripcionGps,
+				  'error'
+		);
+     }
+
+    refreshGeLocation(){
+
+        //Comentar cuando se haga un pase a produccion/calidad hasta tener un dominio valido
+    	/* SyncObjects(()=>{
+    		navigator.geolocation.getCurrentPosition(
+					(position) => {
+						this.parametros = this.parametros || {};
+	    				this.parametros.posicionActual = {
+									latitude : position.coords.latitude,
+									longitude : position.coords.longitude
+			    				};
+					}
+					,
+					(error) =>{
+						this.showErrorGps(error);
+					}
+					,
+					{
+						enableHighAccuracy: true
+					}
+    	    	);
+    	});  */
+
+
+
+    	this.parametros = this.parametros || {};
+		this.parametros.posicionActual = {
+					latitude : -12.092812,
+					longitude : -77.020578
+				};
+    	
+    }
+
+    buildParametros(loading){
+    	var request = this.$.configuracionService.listarParametrosByLista(this.codListaParametros);
+	     request.then((xhr) => {
+
+		    if(xhr.response.valores){ 
+		    	xhr.response.valores.forEach((item) => {
+		    		this.parametros[this.formatCamell(item.cdAlterno)] = (isNaN(item.nbValor)?item.nbValor:parseFloat(item.nbValor));
+				});
+		    }
+
+	    	SyncObjects(()=>{
+
+	    		//Comentar cuando se haga un pase a produccion/calidad hasta tener un dominio valido
+	    	/* 	navigator.geolocation.getCurrentPosition(
+					(position) =>{
+	    				this.parametros = this.parametros || {};
+	    				this.parametros.posicionActual = {
+									latitude : position.coords.latitude,
+									longitude : position.coords.longitude
+			    				};
+	    				localStorage.setItem(this.nameParametros, JSON.stringify(this.parametros));
+	    		    	setTimeout(()=>{ if(loading){ loading.style.display = 'none'; } },500)
+	    			}
+	    			,
+	    			(error) =>{
+	    				localStorage.setItem(this.nameParametros, JSON.stringify(this.parametros));
+	    		    	setTimeout(()=>{ if(loading){ loading.style.display = 'none'; } },500)
+	    		    	this.showErrorGps(error);
+		    		}
+		    	); */ 
+
+		    	
+	    	 	this.parametros = this.parametros || {};
+	    		this.parametros.posicionActual = {
+	    					latitude : -12.092812,
+	    					longitude : -77.020578
+	    				}; 
+
+	    		localStorage.setItem(this.nameParametros || 'parametros', JSON.stringify(this.parametros));
+		    	setTimeout(()=>{ if(loading){ loading.style.display = 'none'; } },500)
+	    		
+				
+		    });
+	    	
+	    	
+			
+	    	
+	    }); 
+    }
+
+    init(loading){
+         if(!this.getParametros()){
+        	  this.buildParametros(loading);
+         }else{
+        	 setTimeout(()=>{ if(loading){ loading.style.display = 'none'; } },500)
+          }
+     }
+
+    }
+    window.customElements.define(ParametrosCommons.is, ParametrosCommons);
+  </script>
+  
+</dom-module>
