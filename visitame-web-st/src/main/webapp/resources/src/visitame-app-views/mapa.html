@@ -171,7 +171,7 @@
 	      getDimensionesDetalle(){
 
 	    	  let dimenciones = {};
-	    	  console.log('w='+window.innerHeight);
+
 	    	  if(window.innerHeight > 0 && window.innerHeight <= 570){
 	    		  dimenciones.alto = "270px";
 	    		  dimenciones.ajusteTopMap = 0.0012;
@@ -191,6 +191,12 @@
 	    	  return dimenciones;
 	    	  
 		  }
+
+		  ocultarDetalle(){
+			  this.$.btnCerrarDetalle.style.display = 'none';
+			  this.$.detalleMinimizado.style.display = 'none';
+			  this.$.detalle.style.height = '0px';
+			}
 
 	      mostrarItemDetalle(){
 				
@@ -312,7 +318,7 @@
         				       this.mapPois.setZoom(17);
 	        				   
 	        				   this.detalleOficina = item.data;
-	        				   console.log(this.detalleOficina);
+	        				
 	        				   var enKm = (parseFloat(this.detalleOficina.distance)/1000);
 	        	
 	        				   if(enKm >= 1){
@@ -321,8 +327,6 @@
 		        				   this.distance = parseFloat(this.detalleOficina.distance).toFixed(0)+'M'
 			        		   }
 
-	        				   console.log(this.$.detalleMinimizado.clientHeight);
-	        				   console.log(this.$.detalleMinimizado.offsetHeight);
 	        				   this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
 		        			   this.detalleOficina = item.data;
 		        			   this.item = item;

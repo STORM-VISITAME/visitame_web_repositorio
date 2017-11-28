@@ -246,13 +246,13 @@ display: none;
 				var center = {lat: parseFloat(latitud), lng: parseFloat(longitud)};
 				this.$.mapaOficinas.getMap().setCenter(center);
 				this.$.mapaOficinas.getMap().setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);				
-				
+				this.$.mapaOficinas.ocultarDetalle();
 		    });
     	  
       }
       
       loadMapa(latitud,longitud,tipo,reload){
-			console.log('en load mapa reload->'+reload);
+
     	  SyncObjects(()=>{
         		this.resetearMapa();
 				this.reloadData(latitud , longitud , tipo , reload);
