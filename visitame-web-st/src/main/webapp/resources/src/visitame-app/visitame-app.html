@@ -212,8 +212,6 @@
         				}
 
         				let viewOrigen = null;
-
-        				this.changeIconMapa();
         				
         				if(this.pagina === "oficinas"){
         					viewOrigen = this.$.viewVisitas;	
@@ -223,12 +221,12 @@
         	   	  			viewOrigen = this.$.viewAgentes;	
         	   	  		}
 	        	   	  	viewOrigen.clearListOficinas();
-	        	   	 	viewOrigen.clearDetalleOficina();
+	        	   	 	//viewOrigen.clearDetalleOficina();
 	        	   	    viewOrigen.getOficinasxUbicacion(places[0].geometry.location.lat(),places[0].geometry.location.lng());
 	        	   	 	this.center = {
 								latitude : places[0].geometry.location.lat(),
 								longitude : places[0].geometry.location.lng()
-		    				};
+		    				}; 
 	        	   	    
                  } );
 
@@ -295,6 +293,9 @@
        	  		this.iconoMapa = 'maps:point';
        	  		this.mapaVisible = false;
        	  	}
+
+
+       	  	
          }
 
          setIconMap(){
@@ -316,6 +317,8 @@
   	  	 	this.changeIconMapa();
   	  	 	viewOrigen.cargarMapa(this.center);
          }
+
+       
 
     	 init(loading){
 	   		 this.$.parametrosConfiguracion.init(loading);

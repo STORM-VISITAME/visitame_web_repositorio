@@ -154,7 +154,7 @@ display: none;
          // console.log('envio list');
  		  this.$.mapaOficinas.setOrigenSeleccion('list');
           
-          this.$.mapaOficinas.setMarkers(this.listOficinas,center);
+          //this.$.mapaOficinas.setMarkers(this.listOficinas,center);
           
     	 
       }
@@ -224,7 +224,10 @@ display: none;
 			google.maps.event.trigger(this.getMap(), "resize");
 			this.$.mapaOficinas.clearMarkers();
 			this.$.mapaOficinas.buildMarkers();
-			this.$.mapaOficinas.centrarUbicacion();
+	
+			if(!reload){
+				this.$.mapaOficinas.centrarUbicacion();
+			}
 			
 		 });
 		 /** <--END **/
@@ -236,9 +239,9 @@ display: none;
       }
 
       reloadData(latitud , longitud , tipo ,reaload){
+          console.log('en reloadData reaload->'+reaload);
     	  this.$.loadingLista.active = true;
     	  this.getParentApp().$.btnChangeMapaView.disabled = true;
-    	  this.clearListOficinas();
     	  var geolocalizacionService = this.$.geoLocalizacionService;
 		     var requestOficinas = geolocalizacionService.listarOficinas({
 					params : {
@@ -249,8 +252,12 @@ display: none;
 						    }
 			});
 		     requestOficinas.then((xhr) => {
-				this.handleResponse(xhr.response,true);
+				this.handleResponse(xhr.response,reaload);
 				this.$.mapaOficinas.setReloadMarkers(this.listOficinas);
+				var center = {lat: parseFloat(latitud), lng: parseFloat(longitud)};
+				this.$.mapaOficinas.getMap().setCenter(center);
+				this.$.mapaOficinas.getMap().setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);				
+				//this.$.mapaOficinas.setMarkers(this.listOficinas,center);
 				
 	/* 			if(reaload){
 					
@@ -275,12 +282,12 @@ display: none;
     	  
       }
       
-      loadMapa(latitud,longitud,tipo){
-			
+      loadMapa(latitud,longitud,tipo,reload){
+			console.log('en load mapa reload->'+reload);
     	  SyncObjects(()=>{
         		//console.log(this.$.parametrosConfiguracion.getParametros())
         		this.resetearMapa();
-				this.reloadData(latitud , longitud , tipo , false);
+				this.reloadData(latitud , longitud , tipo , reload);
 
           });	
     	  
@@ -310,7 +317,7 @@ display: none;
     		  this.$.loadingLista.style.zIndex = '999';
           }
     	  
-    	  this.loadMapa(latitude,longitude);
+    	  this.loadMapa(latitude,longitude,null,true);
       }
      
       getMap(){
