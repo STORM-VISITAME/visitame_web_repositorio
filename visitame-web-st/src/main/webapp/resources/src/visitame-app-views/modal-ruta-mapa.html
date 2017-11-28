@@ -1,679 +1,110 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="lazy" href="../../bower_components/paper-spinner/paper-spinner.html">
-<link rel="import"	href="../../bower_components/google-map/google-map.html">
-<link rel="import"  href="../../bower_components/google-map/google-map-marker.html">
-<link rel="import" href="../visitame-app-icons/main-icons.html">
-<link rel="import" href="../visitame-app-styles/main-style.html">
-<link rel="import" href="../visitame-app-services/geolocalizacion-service.html">
-<link rel="import" href="../visitame-app-commons/parametros-commons.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
-<link rel="import" href="../../bower_components/iron-icons/device-icons.html">
-<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import"	href="../visitame-app-views/modal-ruta-mapa.html">
-<dom-module id="mapa-view">
-    <template id="tmpMapa">
-     <meta charset="utf-8">
-    	<style>
-	    html, body {
-	        height: 100%;
-	        margin: 0;
-	        padding: 0;
-	     }
-	     #divCentrarGps{
-			    position: fixed;
-			    right: 16px;
-			    bottom: 16px;
-			    z-index: 2;
-		}
-		#imgGps{
-		    width: 45px;
-		    height: 45px;
-		}
-		.mapa{
-			width:100%;
-			position: inherit !important;
-			transition: 1s ease-in-out;
-		}
-/* 		.mapaSamll{ */
-/* 			height: 10px; */
-/* 			width:100%; */
-/* 			transition: 1s ease-in-out; */
-/* 		} */
-		
-		.detalleOpen{
-    		background-color: blue;
-    		width: 100%;
-    		height: 50vh;
-    		transition: 1s ease-in-out;
-    	}
-    	.detalleClose{
-    		width: 100%;
-    		height: 0px;    		
-    		background-color: red;
-    		transition: 1s ease-in-out;
-    	}
 
-    	.contenedor{
-    	    width: 100%;
-    		height: 0px;
-     		position: absolute;     		
-     		left: 0;
-			bottom: 0;
-    	}
-    	
-    	.bloque > label{
-    		display: block;
-    		float:left;
-    	}
-    	
-    	.bloque {
-    		width: 100%; 
-    		border-bottom: solid 1px #F2F2F2;
-    		display: inline-block;
-    		padding-bottom:0.5%;
-    	}
-    	
-    	.titulo{
-    		font-size: 1.3em; 
-    		font-weight: bold;
-    	}
-    	
-    	.subTitulo-bold{
-    		font-size: 1em; 
-    		font-weight: bold;
-    		padding-top:0.5%;
-    	}
-    	
-    	.subTitulo{
-    		font-size: 1em; 
-    		color: #8F8F8F;
-    	}
-    	
-    	paper-button.botonComoLlegar{
-    		font-size: 1em; 
-    	}
-    	
-    	paper-button.botonComollegarLink{
-    		color: #5CA900;
-    		margin: 0px;
-   			padding: 0px;
-   			text-transform: capitalize;
-   			text-decoration: underline;
-    	}
-    	
-    	.botonera{
-    		text-align:center;
-    	}
-    	
-    	paper-button.boton[active] {
-    		background-color: var(--paper-red-500);
-  		}
-    	
-    	paper-button.boton{
-			border: solid 1px #F2F2F2;
-			border-radius:5px;
-			font-size: 1em; 
-			--paper-button-flat-keyboard-focus: {
-      			background-color: #0051A9;
-      			color:white !important;
-		    };
-    	}
-    	
-    	paper-button.boton-ticket{
-			background-color: #0051A9;
-			color:#fff;
-    	}
-    	
-    	@media (max-height: 660px) {
-    		.titulo{
-    			font-size: 1.1em; 
-	    		font-weight: bold;
-    		}
-    	
-	    	.subTitulo-bold{
-	    		font-size: 0.8em; 
-	    		font-weight: bold;
-	    		padding-top:0.5%;
-	    	}
-	    	
-	    	.subTitulo{
-    			font-size: 0.9em; 
-	    		color: #8F8F8F;
-    		}
-    		
-    		paper-button.botonComoLlegar{
-    			font-size: 0.9em; 
-    		}
-    		
-    		paper-button.boton{
-				border: solid 1px #F2F2F2;
-				border-radius:5px;
-				font-size: 0.8em; 
-    		}
-    	}
-    	
-    	@media (min-height: 730px) {
-    		.titulo{
-    			font-size: 1.5em; 
-	    		font-weight: bold;
-    		}
-    	
-	    	.subTitulo-bold{
-	    		font-size: 1.2em; 
-	    		font-weight: bold;
-	    		padding-top:0.5%;
-	    	}
-	    	
-	    	.subTitulo{
-    			font-size: 1.2em; 
-	    		color: #8F8F8F;
-    		}
-    		
-    		paper-button.botonComoLlegar{
-    			font-size: 0.9em; 
-    		}
-    		
-    		paper-button.boton{
-				border: solid 1px #F2F2F2;
-				border-radius:5px;
-				font-size: 1.2em; 
-    		}
-    	}
-    	
-    	
-    	
-    	.icono{
-    		width:10%;
-    		float: left;
-    		padding-top:0.5%;
-    		color: #8F8F8F;
-    	}
-    	
-    	iron-icon.iconoTelefono{
-    		--iron-icon-fill-color:green;
-    	}
-    	
-/*     	.windowComoLlegar{
-	    	position: absolute;
-	    	width: 100%;
-	    	height: 100%;
-	    	background: #fff;
-	    	top: 0px;
-	    	left: 0px;
-	    	z-index: 999999999;
-    	} */
-    	
-		
-		</style>
-	 	<!-- Uso de Parametros -->
-		<parametros-commons id = "parametrosConfiguracion" ></parametros-commons>	
-		<geolocalizacion-service id="geoLocalizacionService">		
-		</geolocalizacion-service>
+<link rel="import" href="../visitame-app-styles/leyenda-style.html">
+<dom-module id="modal-ruta-mapa">
+    <template>
+      
+  		<style include="leyenda-style"></style>
+        
+ 		<meta charset="utf-8">
+        <paper-dialog  class="ventana roundbox boxshadow" id="rutaMapa" style="text-align:center;" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
+            <div
+				style="width: 90%; height: 100%; display: inline-block; padding: 0px;">
+				<div style="width: 100%; font-size: 1.4em;">Llega con:</div>
+				<div style="height: 40px; width: 250px; margin-top: 15px;">
+					<paper-button src="{{pathParent}}images/googleMap.jpg" on-tap="abritGoogleMap" style="text-transform: capitalize;">
+						<iron-icon src="{{pathParent}}images/googleMap.jpg" style="margin-right: 2px;" ></iron-icon>
+						Google maps
+					</paper-button>
+				</div>
 
-		<div id="divCentrarGps" on-click="centrarUbicacion" >
-		 	<img id="imgGps" src="{{dirResources}}/images/ic_gps.svg">
-		</div>
-		<div id="contenedorMapaDetalle">
-			<div id = "mapContent"></div>
-			<div id="detalle" class="contenedor" style="height: 0px; overflow:hidden;">
-				<div style = 'width:  90%; display: block; padding: 5%;'>
-				<div  class="bloque">
-					<label style="width: 100%;" class="titulo">{{detalleOficina.address2}}</label>
-					<label style="width: 100%;" class="subTitulo">{{detalleOficina.address}}</label>
-					<!--
-					<iron-icon icon="social:person" class="icono" ></iron-icon><label style="width: 90%; color:#008CDB;" class="subTitulo-bold">NÃºmero estimado de clientes en espera:{{detalleOficina.saturacion}}</label>
-					-->			
+				<div style="height: 40px; width: 198px; ">
+					<paper-button src="{{pathParent}}images/waze.jpg" on-tap="abrirMapaWaze" style="text-transform: capitalize;">
+						<iron-icon src="{{pathParent}}images/waze.jpg"  style="margin-right: 2px;"  ></iron-icon>
+						Waze
+					</paper-button>		
 				</div>
-				<div class="bloque">
-					<div style="display:inline-block;">
-						<iron-icon icon="device:access-time" class="icono"></iron-icon>
-						<label style="width: 90%;" class="subTitulo-bold"> Horario de atenciÃ³n</label>
-					</div>
-					<label style="width: 55%; padding-left:10%;" class="subTitulo">Lunes a Viernes</label><label style="width: 35%;" class="subTitulo">{{detalleOficina.hours_mf}}</label>
-					<label style="width: 55%; padding-left:10%;" class="subTitulo">SÃ¡bados</label>		  <label style="width: 35%;" class="subTitulo">{{detalleOficina.hours_sat}}</label>
-				</div>
-				<div class="bloque">
-				    <iron-icon icon="communication:phone" class="icono iconoTelefono"></iron-icon>
-					<label style="width: 55%;" class="subTitulo-bold">TelÃ©fono</label>
-					<label style="width: 35%; padding-top:0.5%;" class="subTitulo">{{detalleOficina.telephone}}</label>
-
-				</div>
-				<div class="bloque">
-				    <iron-icon icon="flag" class="icono" ></iron-icon>
-					<label style="width: 55%;" class="subTitulo-bold">Rutas</label>
-					<div style="width: 35%; padding-top:0.5%; float:left;" >
-						<paper-button on-tap="sendNavigation" class="botonComoLlegar botonComollegarLink" noink>Â¿Como llegar?</paper-button>
-					</div>
-				</div>
-				<div class="botonera" >
-					<paper-button id= "btnReservarTicket" class="boton boton-ticket" style="width:100%; margin-bottom:2%;" on-click="abrirLogin">Reservar ticket de atenciÃ³n</paper-button>
-					<paper-button class="boton" style="width:100%;" on-click="cerrarDetalle">Cancelar</paper-button>
+				<div style="width: 100%; margin-top: 3%; font-size: 0.7em; color: darkblue;">*Debes tener instalada la aplicación que elijas.</div>
+				<div style="width: 100%;">
+					<paper-button class="aceptar" on-click="cerrar" style="margin-top: 6px;" >Cancelar</paper-button>
 				</div>
 			</div>
-		</div>
-		
-	<!-- 	<div id = "iframeComoLlegar"  class = "windowComoLlegar" >
-			<iframe src="http://maps.google.com/maps?saddr=-12.0943087,-77.0206364&daddr=-12.0939,-77.0213&output=embed" height="100%" width="100%" allowfullscreen></iframe>
-		</div>  -->
-		
-	</template>
+        </paper-dialog>
+    </template>
+    <script>
+        class ModalRutaMapa extends Polymer.Element {
+            static get is() {
+                return 'modal-ruta-mapa';
+            }
    
-	<script>
-	    class MapaView extends Polymer.Element {
-	      static get is() { return 'mapa-view'; }
-	
-	      static get properties(){
-	        return {
-	              pathParent : {
-	                  type : String,
-	                  value :dirStatic+'/'
-	              },
-	              centroide : {
-		                type : Object
-		          },
-		          errorDescripcion : {
-			           type : String
-			      },
-			      mapPois:{
-			    	  type : Object,
-			    	  value:{}
-				  },
-			      markers:{
-			    	  type : Array,
-			    	  value: []
-				  },
-				  zoom:{
-					  	type : String
-				  },
-	              parentApp : {
+            static get properties() {
+                return {
+                    pathParent: {
+                        type: String,
+                        value: dirStatic+'/'
+                    },
+                
+                	mapa : {
 						type: Object
-	              },
-				  estiloDetalle : {
-					type: String,
-					value: "detalleClose"
-				  },
-				  estiloMapa:{
-					  type: String,
-					  value: "mapa"
-				  },
-				  altoMapa:{
-					  type:String
-				  },
-				  altoPantalla: {
-					  type:String
-				  },
-				  altoHeader:{
-					  type:String
-				  },
-				  altoTotal:{
-					  type:String
-				  },				  
-				  detalleOficina:{
-					  type: Object
-				  },
-				  item:{
-					  type: Object
-				  },
-				  eventoSeleccionadoMarker:{
-					  type:Object
-				  },
-				  viaDetalle:{
-					  type:String,
-					  value: "mapa"
-				  },
-				  unidadAtencion:{
-	            	   type: Object
-	              },
-	              tipoUnidad:{
-	            		type: String  
-	              },
-	              dataMarkers:{
-	            	  type: Array
-	              },
-	              dirResources:{
-	            	  type: String,
-	            	  value:dirStatic  
-		          }
-				  
-	        }
-	      }
+              		}
+                };
+            }
+            ready() {
+                super.ready();
+                if (!localStorage.getItem("leyenda") || localStorage.getItem("leyenda") == "0") {
+                    this.$.animated.open();
+                }
+            }
 
-	      setParentApp(parent){
-				this.parentApp = parent;
-		  }
+            abritGoogleMap() {
+            	  if(this.getMapa().detalleOficina){
+      	    	  	let latitudeActual  = this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.latitude;
+      	    	  	let longitudeActual= this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.longitude;
+      	    	  	let latitudeIr = this.getMapa().detalleOficina.latitude;
+      	    	  	let longitudeIr = this.getMapa().detalleOficina.longitude;
+      	    	  	
+      	    	  	window.open("http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr,'_blank'); 
+      			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
+      	    	  }else{
+      	    		  console.log("Detalle de Oficina Seleccionada no se encontró");
+      	    	  }
+            }
+            
+            abrirMapaWaze() {
+            	if(this.getMapa().detalleOficina){
+      	    	  	let latitudeActual  = this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.latitude;
+      	    	  	let longitudeActual= this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.longitude;
+      	    	  	let latitudeIr = this.getMapa().detalleOficina.latitude;
+      	    	  	let longitudeIr = this.getMapa().detalleOficina.longitude;
+      	    	  	
+      	    	  	window.open("https://waze.com/ul?ll="+latitudeActual+","+longitudeActual+"&z=10&navigate=yes",'_blank'); 
+      			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
+      	    	  }else{
+      	    		  console.log("Detalle de Oficina Seleccionada no se encontró");
+      	    	  }
+            }
+            
+            abrir() {
+            	 this.$.rutaMapa.open();
+            }
+            
+            setMapa(mapa){
+            	this.mapa = mapa;
+            }
+            
+            getMapa(){
+            	return this.mapa;
+            }
+            
+            cerrar() {
+           	 this.$.rutaMapa.close();
+           }
 
-	      getParentApp(){
-				return this.parentApp;
-		  }
-	      
-	      setUnidadAtencion(unidadAtencion){
-				this.unidadAtencion = unidadAtencion;
-		  }
-
-	      getUnidadAtencion(){
-				return this.unidadAtencion;
-		  }
-
-	      getMap(){
-				return this.mapPois; 
-		  }
-	      
-	      clearMap(){
-				this.mapPois.fitBounds(null);
-		  }
-	      
-	      setDetalleOficina(detalleOficina){
-	    	  this.detalleOficina = detalleOficina;
-	      }
-	      
-	      sendNavigation(){
-
-	    	  //this.$.rutaMapa.open();
-	    	  this.getParentApp().$.idModalRuta.abrir();
-	    	  this.getParentApp().$.idModalRuta.setMapa(this);
-	    	  
-
-/* 	    	  if(this.detalleOficina){
-	    		  
-	    	  	let latitudeActual  = this.$.parametrosConfiguracion.getParametros().posicionActual.latitude;
-	    	  	let longitudeActual= this.$.parametrosConfiguracion.getParametros().posicionActual.longitude;
-	    	  	let latitudeIr = this.detalleOficina.latitude;
-	    	  	let longitudeIr = this.detalleOficina.longitude;
-	    	  	
-	    	  	window.open("http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr,'_blank'); 
-			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
-	    	  }else
-	    		  console.log("Detalle de Oficina Seleccionada no se encontrÃ³"); */
-		  }
-	      
-	      reAjusteMap(){
-		      try{
-		    	  var map = this.mapPois;
-		    	  google.maps.event.trigger(map, "resize");
-			  }catch(e){
-				console.log('no se pudo hacer resize del mapa');
-				console.log(e);
-			  }
-		  }
-	      
-	      refrescarMapa(data){
-	    	  this.dataMarkers = data;
-	    	 
-	      }
-	      
-	     buildMarkers(){
-	    	 if(this.markers.length > 0) {  this.clearMarkers(); }
-	    	 
-	    	 if(this.dataMarkers){
-	        	  
-	        	  this.dataMarkers.forEach((item,index)=>{
-					  let pathIcon = this.pathParent+"/images/icon_marker_"+item.iconColor;
-					  let point = {lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)};
-	        		  let marker = new google.maps.Marker({
-	        	          position: point,
-	        	          map: this.mapPois,
-	        	          title: item.name,
-	        	          icon: pathIcon
-	        	        });
-
-	        		  marker.addListener('click', (e) => {
-	        			   if(item.type == 'O'){
-								//console.log(this.getParentApp());
-		        			   //this.getParentApp().showLogin();
-		        			   var alto = this.altoTotal/4;
-		        			   var altoDetalle = alto * 3;
-		        			   this.$.divCentrarGps.style.display = 'none';
-		        			   this.$.mapContent.style.height = alto+"px";
-	    	    			   this.$.mapContent.style.transition = '0.8s ease-in-out';
-	        				   this.$.detalle.style.height = altoDetalle+"px";
-	        				   this.$.detalle.style.transition = '0.8s ease-in-out';
-							   var centroide = {lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)};
-							   
-							   setTimeout(() => {
-							   	   google.maps.event.trigger(this.mapPois, "resize");	
-							   		this.mapPois.panTo(marker.getPosition());
-							   		this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-							   }, 600);
-							   
-		        			   this.detalleOficina = item.data;
-		        			   this.item = item;
-		        			   this.eventoSeleccionadoMarker = e;
-		        			   this.mapPois.scrollwheel = false;
-		        			   this.mapPois.draggable = false;
-		        			   this.mapPois.zoomControl  = false;
-	        			   } 
-	        			   
-	        		  });
-	        		  this.markers.push(marker);
-		          });
-		      }
-	    	 
-	     }
-		   
-	     setMarkers(data,center){
-		    console.log('center');
-	    	console.log(center)
-	    	//TODO evaluar si va esta logica verificar si es q los markers varian mucho en el tiempo
-	    	//ademas de si es necesario sobre cargar con esta logica la performance
-	    	  /* this.clearMarkers();
-				if(this.mapPois){
-						var map = this.mapPois;
-						//google.maps.event.trigger(map, "resize");
-						this.dataMarkers = data;
-				
-						this.buildMarkers();
-						
-						SyncObjects(() => {
-							console.log('zoom->'+this.$.parametrosConfiguracion.getParametros().zoomMapGen);
-							map.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-							var centroide = null;
-							if(center && center.latitude && center.longitude){
-								centroide = {lat: center.latitude, lng: center.longitude};
-							}else{
-								centroide = {lat: this.$.parametrosConfiguracion.getParametros().posicionActual.latitude, lng: this.$.parametrosConfiguracion.getParametros().posicionActual.longitude};
-							}
-							
-							map.setCenter(centroide);
-						});
-			          
-					}  */
-	     }
-	     
-	     verDetalleOficina(unidad){
-	    	 if(unidad.type == 'O'){
-	    		 
- 			   var alto = this.altoTotal/4;
- 			   var altoDetalle = alto * 3;
- 			   this.$.divCentrarGps.style.display = 'none';
- 			   this.$.mapContent.style.height = alto+"px";
- 			   this.$.mapContent.style.transition = '0.8s ease-in-out';
-			   this.$.detalle.style.height = altoDetalle+"px";
-			   this.$.detalle.style.transition = '0.8s ease-in-out';
-			   let centroide = {lat: parseFloat(unidad.latitude), lng: parseFloat(unidad.longitude)};
-				   
-			   setTimeout(() => {
-			   	   google.maps.event.trigger(this.mapPois, "resize");	
-			   	this.mapPois.setCenter(centroide);
-			   	this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-			   }, 600);   
-			   this.detalleOficina = unidad.data;
- 			   this.item = unidad;
- 			   this.getParentApp().changeIconMapa();
- 			   this.viaDetalle = "lista";
-		   }
-	    	 
-	     }
-	     
-	     
-	     
-	     cerrarDetalle(){
-	    	   if(this.viaDetalle === "mapa"){	
-				   this.$.mapContent.style.height = this.altoTotal+"px";
-				   this.$.detalle.style.height = "0px";	    	 
-				   this.$.detalle.style.overflow= "hidden";
-				   this.$.divCentrarGps.style.display = 'block';
-				   setTimeout(() => {
-					   google.maps.event.trigger(this.mapPois, "resize");	
-					   this.centrarOrigen();
-					   this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-				   }, 800);
-	    	   }else{
-	    		 let latitud  = this.getParentApp().center.latitude;
-	    		 let longitud = this.getParentApp().center.longitude; 
-		    	 this.getUnidadAtencion().loadMapa(latitud,longitud,this.item.type);
-		    	 this.viaDetalle = "mapa";
-		    	 this.cerrarDetalleVista();
-	    	   }
-	     }
-	     
-	     cerrarDetalleVista(){
-			   if(this.tipoUnidad == 'O'){
-			 		this.$.mapContent.style.transition = '0.8s ease-in-out';
-			    	this.$.mapContent.style.height = this.altoTotal+"px";
-			 		this.$.detalle.style.transition = '0.8s ease-in-out';
-			    	this.$.detalle.style.height = "0px";
-					this.$.detalle.style.overflow= "hidden";
-	  			    this.$.divCentrarGps.style.display = 'block';
-			   }
-	     }
-	     
-	     cerrarDetalleVistaRapido(){
-	    	 if(this.tipoUnidad == 'O'){
-			 	this.$.mapContent.style.transition = '0.0s ease-in-out';
-	    	 	this.$.mapContent.style.height = this.altoTotal+"px";
-			 	this.$.detalle.style.transition = '0.0s ease-in-out';
-	    	 	this.$.detalle.style.height = "0px";
-				this.$.detalle.style.overflow= "hidden";
-			 	this.$.divCentrarGps.style.display = 'block';
-	    	 }
-	     }
-	     
-	     abrirLogin(){
-	    	 this.getParentApp().showLogin({
-					item : this.item,
-					icon: "/images/icon_marker_"+this.item.iconColor,
-					e : this.eventoSeleccionadoMarker
- 			});
-
-	     }
-	     
-	     clearMarkers(){
-
-	    	 for (var i = 0; i < this.markers.length; i++) {
-	    		 this.markers[i].setMap(null);
-	         }
-	    	 this.markers = [];
-	    	 
-	     }
-	     centrarUbicacion() {
-		     
-					var center = {lat: this.$.parametrosConfiguracion.getParametros().posicionActual.latitude, lng: this.$.parametrosConfiguracion.getParametros().posicionActual.longitude};
-					this.mapPois.setCenter(center);
-	
-					
-	     }
-	     
-	     centrarOrigen(){
-	    	 var center = {lat: this.getParentApp().center.latitude, lng: this.getParentApp().center.longitude};
-			 this.mapPois.setCenter(center);
-	     }
-	     
-	     setReloadMarkers(data){
-	    	 this.clearMarkers();
-				if(this.mapPois){
-						var map = this.mapPois;
-						this.dataMarkers = data;
-				          if(this.dataMarkers){
-				        	  
-				        	  this.dataMarkers.forEach((item,index)=>{
-								  let pathIcon = this.pathParent+"/images/icon_marker_"+item.iconColor;
-								  let point = {lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)};
-				        		  let marker = new google.maps.Marker({
-				        	          position: point,
-				        	          map: this.mapPois,
-				        	          title: item.name,
-				        	          icon: pathIcon
-				        	        });
-									
-				        		  if(this.detalleOficina && this.detalleOficina.idPoi == item.data.idPoi){
-				        			  this.detalleOficina = item.data;
-				        			  this.item = item;
-				        		  }
-				        		  this.markers.push(marker);
-					          });
-				        	  
-					      }
-			          
-					}
-	    }
-	     reloadSizeDetalle() {
-	       this.altoHeader   = this.getParentApp().altoHeader;
-		   this.altoPantalla = this.getParentApp().altoPantalla;
-		   this.altoTotal    = this.altoPantalla - this.altoHeader;
-		   
-		   if(this.$.detalle.style.height !== "0px"){
-			   var alto = this.altoTotal/4;
-			   var altoDetalle = alto * 3;
-			   this.$.mapContent.style.height = alto+"px";
-			   this.$.detalle.style.height = altoDetalle+"px";   
-		   }else{
-			   this.$.mapContent.style.height = this.altoTotal+"px";   
-		   } 
-		   
-	       
-		   
-		   
-	     }
-	 
-	     ready() {
-	            super.ready();
-	            let center = null;
-				let zoom  = null;
-				
-				if(this.$.parametrosConfiguracion && this.$.parametrosConfiguracion.getParametros() && this.$.parametrosConfiguracion.getParametros().posicionActual){
-					center = {lat: this.$.parametrosConfiguracion.getParametros().posicionActual.latitude, lng: this.$.parametrosConfiguracion.getParametros().posicionActual.longitude};
-			    }else{
-			    	 center =  {lat: -34.397, lng: 150.644}
-				}
-
-	            if(this.$.parametrosConfiguracion && this.$.parametrosConfiguracion.getParametros() && this.$.parametrosConfiguracion.getParametros().zoomMapGen){
-	            	zoom = parseFloat(this.$.parametrosConfiguracion.getParametros().zoomMapGen);
-			    }else{
-			    	zoom = 16;
-				}
-
-	            console.log(zoom);
-	            
-	            SyncObjects(()=>{
-					this.altoHeader   = this.getParentApp().altoHeader;
-					this.altoPantalla = this.getParentApp().altoPantalla;
-					this.altoTotal    = this.altoPantalla - this.altoHeader;
-					this.$.mapContent.style.height = this.altoTotal+"px";
-					 if(this.$.parametrosConfiguracion.getParametros() &&this.$.parametrosConfiguracion.getParametros().viewMapOnly == '1'){
-			            	this.$.btnReservarTicket.style.display = 'none';
-			         }
-					
-	            });
-				
-		           
-	            this.mapPois =new google.maps.Map(this.$.mapContent, {
-	                center: center,
-	                zoom: zoom,
-	                zoomControl: false,
-	                mapTypeControl: false,
-	                scaleControl: false,
-	                streetViewControl: false,
-	                fullscreenControl: false,
-	                draggable: true,
-	                gestureHandling: 'greedy'
-	              });
-	     }}
-	    
-
-    	window.customElements.define(MapaView.is, MapaView);
-  		</script>
-  		  
+        }
+        window.customElements.define(ModalRutaMapa.is, ModalRutaMapa);
+    </script>
 </dom-module>
