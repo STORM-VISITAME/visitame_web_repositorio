@@ -12,221 +12,11 @@
 <link rel="import" href="../../bower_components/iron-icons/device-icons.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../visitame-app-styles/mapa-style.html">
 <dom-module id="mapa-view">
     <template id="tmpMapa">
      <meta charset="utf-8">
-    	<style>
-	    html, body {
-	        height: 100%;
-	        margin: 0;
-	        padding: 0;
-	     }
-	     #divCentrarGps{
-			    position: fixed;
-			    right: 16px;
-			    bottom: 16px;
-			    z-index: 2;
-		}
-		#imgGps{
-		    width: 45px;
-		    height: 45px;
-		}
-		.mapa{
-			width:100%;
-			position: inherit !important;
-			transition: 1s ease-in-out;
-		}
-/* 		.mapaSamll{ */
-/* 			height: 10px; */
-/* 			width:100%; */
-/* 			transition: 1s ease-in-out; */
-/* 		} */
-		
-		.detalleOpen{
-    		background-color: blue;
-    		width: 100%;
-    		height: 50vh;
-    		transition: 1s ease-in-out;
-    	}
-    	.detalleClose{
-    		width: 100%;
-    		height: 0px;    		
-    		background-color: red;
-    		transition: 1s ease-in-out;
-    	}
-
-    	.contenedor{
-    	    width: 100%;
-    		height: 0px;
-     		position: absolute;     		
-     		left: 0;
-			bottom: 0;
-    	}
-    	
-    	.bloque > label{
-    		display: block;
-    		float:left;
-    	}
-    	
-    	.bloque {
-    		width: 100%; 
-    		border-bottom: solid 1px #F2F2F2;
-    		display: inline-block;
-    		padding-bottom:0.5%;
-    	}
-    	
-    	.titulo{
-    		font-size: 1.3em; 
-    		font-weight: bold;
-    	}
-    	
-    	.subTitulo-bold{
-    		font-size: 1em; 
-    		font-weight: bold;
-    		padding-top:0.5%;
-    	}
-    	
-    	.subTitulo{
-    		font-size: 1em; 
-    		color: #8F8F8F;
-    	}
-    	
-    	paper-button.botonComoLlegar{
-    		font-size: 1em; 
-    	}
-    	
-    	paper-button.botonComollegarLink{
-    		color: #5CA900;
-    		margin: 0px;
-   			padding: 0px;
-   			text-transform: capitalize;
-   			text-decoration: underline;
-    	}
-    	
-    	.botonera{
-    		text-align:center;
-    	}
-    	
-    	paper-button.boton[active] {
-    		background-color: var(--paper-red-500);
-  		}
-    	
-    	paper-button.boton{
-			border: solid 1px #F2F2F2;
-			border-radius:5px;
-			font-size: 1em; 
-			--paper-button-flat-keyboard-focus: {
-      			background-color: #0051A9;
-      			color:white !important;
-		    };
-    	}
-    	
-    	paper-button.boton-ticket{
-			background-color: #0051A9;
-			color:#fff;
-    	}
-    	
-    	@media (max-height: 660px) {
-    		.titulo{
-    			font-size: 1.1em; 
-	    		font-weight: bold;
-    		}
-    	
-	    	.subTitulo-bold{
-	    		font-size: 0.8em; 
-	    		font-weight: bold;
-	    		padding-top:0.5%;
-	    	}
-	    	
-	    	.subTitulo{
-    			font-size: 0.9em; 
-	    		color: #8F8F8F;
-    		}
-    		
-    		paper-button.botonComoLlegar{
-    			font-size: 0.9em; 
-    		}
-    		
-    		paper-button.boton{
-				border: solid 1px #F2F2F2;
-				border-radius:5px;
-				font-size: 0.8em; 
-    		}
-    	}
-    	
-    	@media (min-height: 730px) {
-    		.titulo{
-    			font-size: 1.5em; 
-	    		font-weight: bold;
-    		}
-    	
-	    	.subTitulo-bold{
-	    		font-size: 1.2em; 
-	    		font-weight: bold;
-	    		padding-top:0.5%;
-	    	}
-	    	
-	    	.subTitulo{
-    			font-size: 1.2em; 
-	    		color: #8F8F8F;
-    		}
-    		
-    		paper-button.botonComoLlegar{
-    			font-size: 0.9em; 
-    		}
-    		
-    		paper-button.boton{
-				border: solid 1px #F2F2F2;
-				border-radius:5px;
-				font-size: 1.2em; 
-    		}
-    	}
-    	
-    	
-    	
-    	.icono{
-    		width:10%;
-    		float: left;
-    		padding-top:0.5%;
-    		color: #8F8F8F;
-    	}
-    	
-    	iron-icon.iconoTelefono{
-    		--iron-icon-fill-color:green;
-    	}
-    	
-    	#detalleMinimizado{
-    		width: 94%;
-    		margin: 0 2%;
-    		position: fixed;
-    		bottom: 1%;
-    		background: #fff;
-    		border-radius: 5px;
-    		padding: 5px;
-			z-index: 10;
-    		
-    	}
-    	
-/*     	.windowComoLlegar{
-	    	position: absolute;
-	    	width: 100%;
-	    	height: 100%;
-	    	background: #fff;
-	    	top: 0px;
-	    	left: 0px;
-	    	z-index: 999999999;
-    	} */
-    	
-    	.iconoClose{
-    		position: absolute;
-    		top: 0px;
-    		right: 0px;
-    		width: 50px;
-    		height: 50px;
-    		z-index: 12000;
-    	}
-		
-		</style>
+    	<style include="mapa-style"></style>
 	 	<!-- Uso de Parametros -->
 		<parametros-commons id = "parametrosConfiguracion" ></parametros-commons>	
 		<geolocalizacion-service id="geoLocalizacionService">		
@@ -237,8 +27,8 @@
 		</div>
 		<div id="contenedorMapaDetalle">
 			<div id = "mapContent"></div>
-			<div id="detalle" class="contenedor" style="height: 0px; overflow:hidden;">
-				<paper-icon-button src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>
+			<div id="detalle" class="contenedor" style="height: 0px;">
+				<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>
 				<div style = 'width:  90%; display: block; padding: 5%;'>
 				<div  class="bloque">
 					<label style="width: 100%;" class="titulo">{{detalleOficina.address2}}</label>
@@ -279,8 +69,12 @@
 			-->
 		</div>  
 		
-		<div id = "detalleMinimizado">
-		Hola
+		<div id = "detalleMinimizado" style="display: none;" on-click="mostrarItemDetalle">
+			<h1>{{detalleOficina.description}}</h1>
+			<div class="numKm">{{distance}}</div>
+			<div style="clear: both;"></div>
+			<p>{{detalleOficina.address}} ({{detalleOficina.province}})</p>
+			
 		</div>
 		
 	</template>
@@ -364,10 +158,56 @@
 	              origenSeleccion:{
 	              	 type: String,
 	              	 value:'map'
-	                }
+	              },
+                  distance:{
+	            	  type: String 
+		          }
+	                
 				  
 	        }
 	      }
+
+	      getDimensionesDetalle(){
+
+	    	  let dimenciones = {};
+	    	  console.log('w='+window.innerHeight);
+	    	  if(window.innerHeight > 0 && window.innerHeight <= 570){
+	    		  dimenciones.alto = "270px";
+	    		  dimenciones.ajusteTopMap = 0.0012;
+			   }else if(window.innerHeight > 570 && window.innerHeight <= 640){
+				      dimenciones.alto = "250px";
+		    		  dimenciones.ajusteTopMap = 0.0011;
+			   }else if(window.innerHeight > 640 && window.innerHeight <= 732){
+				      dimenciones.alto = "260px";
+		    		  dimenciones.ajusteTopMap = 0.0012;
+			   }else if(window.innerHeight > 732 && window.innerHeight <= 750){
+				      dimenciones.alto = "290px";
+		    		  dimenciones.ajusteTopMap = 0.0015;
+			   }else{
+				   dimenciones.alto = "320px";
+				   dimenciones.ajusteTopMap = 0.0015;
+			   }
+	    	  return dimenciones;
+	    	  
+		  }
+
+	      mostrarItemDetalle(){
+				
+				this.$.btnCerrarDetalle.style.display = 'block';
+				this.$.detalleMinimizado.style.display = 'none';
+				this.$.divCentrarGps.style.display = 'none';
+
+				let dimensiones = this.getDimensionesDetalle();
+				
+				let lat = this.mapPois.getCenter().lat()-dimensiones.ajusteTopMap;
+				let lng = this.mapPois.getCenter().lng();
+				
+				this.mapPois.setCenter(new google.maps.LatLng(lat, lng));
+				
+				this.$.detalle.style.height = dimensiones.alto;
+				this.$.detalle.style.transition = '0.5s ease-in-out'; 
+	
+		  }
 
 	      setOrigenSeleccion(origen){
 				this.origenSeleccion = origen;
@@ -414,7 +254,6 @@
 	    	  	let longitudeIr = this.detalleOficina.longitude;
 	    	  	
 	    	  	window.open("http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr,'_blank'); 
-			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
 	    	  }else
 	    		  console.log("Detalle de Oficina Seleccionada no se encontró");
 		  }
@@ -449,35 +288,37 @@
 	        	          icon: pathIcon
 	        	        });
 
+	        		  //Seleccion desde hacer click en el marker
 	        		  marker.addListener('click', (e) => {
-	        			  console.log('seleccino desde marker')
+	        			  
 	        			   if(item.type == 'O'){
 	        				   this.setOrigenSeleccion('map');
-								//console.log(this.getParentApp());
-		        			   //this.getParentApp().showLogin();
-		        			   
-		        			   
-		        			  /*  var alto = this.altoTotal/4;
-		        			   var altoDetalle = alto * 3;
-		        			   this.$.divCentrarGps.style.display = 'none';
-		        			   this.$.mapContent.style.height = alto+"px";
-	    	    			   this.$.mapContent.style.transition = '0.8s ease-in-out';
-	        				   this.$.detalle.style.height = altoDetalle+"px";
-	        				   this.$.detalle.style.transition = '0.8s ease-in-out';
-							   var centroide = {lat: parseFloat(item.latitude), lng: parseFloat(item.longitude)};
-							   
-							   setTimeout(() => {
-							   	   google.maps.event.trigger(this.mapPois, "resize");	
-							   		this.mapPois.panTo(marker.getPosition());
-							   		this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-							   }, 600);
-							   
+	        					
+	        				   this.$.btnCerrarDetalle.style.display = 'none';
+	        				   this.$.detalle.style.transition = '0s ease-in-out'; 
+	        				   this.$.detalle.style.height = '0px';
+	        		
+	        				   
+        				   	   this.$.detalleMinimizado.style.display = 'block';
+        				       this.mapPois.panTo(marker.getPosition());
+        				       this.mapPois.setZoom(17);
+	        				   
+	        				   this.detalleOficina = item.data;
+	        				   console.log(this.detalleOficina);
+	        				   var enKm = (parseFloat(this.detalleOficina.distance)/1000);
+	        	
+	        				   if(enKm >= 1){
+	        					   this.distance = (enKm.toFixed(1)==1?'1':enKm.toFixed(1))+'KM'
+		        			   }else{
+		        				   this.distance = parseFloat(this.detalleOficina.distance).toFixed(0)+'M'
+			        		   }
+
+	        				   console.log(this.$.detalleMinimizado.clientHeight);
+	        				   console.log(this.$.detalleMinimizado.offsetHeight);
+	        				   this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
 		        			   this.detalleOficina = item.data;
 		        			   this.item = item;
 		        			   this.eventoSeleccionadoMarker = e;
-		        			   this.mapPois.scrollwheel = false;
-		        			   this.mapPois.draggable = false;
-		        			   this.mapPois.zoomControl  = false; */
 	        			   } 
 	        			   
 	        		  });
@@ -486,120 +327,65 @@
 		      }
 	    	 
 	     }
-		   
-	     setMarkers(data,center){
-		  /*   console.log('center');
-	    	console.log(center) */
-	    	//TODO evaluar si va esta logica verificar si es q los markers varian mucho en el tiempo
-	    	//ademas de si es necesario sobre cargar con esta logica la performance
-	    	  /* this.clearMarkers();
-				if(this.mapPois){
-						var map = this.mapPois;
-						//google.maps.event.trigger(map, "resize");
-						this.dataMarkers = data;
-				
-						this.buildMarkers();
-						
-						SyncObjects(() => {
-							console.log('zoom->'+this.$.parametrosConfiguracion.getParametros().zoomMapGen);
-							map.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-							var centroide = null;
-							if(center && center.latitude && center.longitude){
-								centroide = {lat: center.latitude, lng: center.longitude};
-							}else{
-								centroide = {lat: this.$.parametrosConfiguracion.getParametros().posicionActual.latitude, lng: this.$.parametrosConfiguracion.getParametros().posicionActual.longitude};
-							}
-							
-							map.setCenter(centroide);
-						});
-			          
-					}  */
-	     }
 	     
 	     verDetalleOficina(unidad){
 
-	    	 console.log('seleccino desde listado');
-		     
+	    	 //Seleccion desde hacer click en item de listado
+
+		     let dimensiones = this.getDimensionesDetalle();
 	    	 if(unidad.type == 'O'){
-	    		 
- 			   var alto = this.altoTotal/4;
- 			   var altoDetalle = alto * 3;
- 			   this.$.divCentrarGps.style.display = 'none';
- 			   this.$.mapContent.style.height = alto+"px";
- 			   this.$.mapContent.style.transition = '0.8s ease-in-out';
-			   this.$.detalle.style.height = altoDetalle+"px";
-			   this.$.detalle.style.transition = '0.8s ease-in-out';
-			   let centroide = {lat: parseFloat(unidad.latitude), lng: parseFloat(unidad.longitude)};
-				   
-			   setTimeout(() => {
-			   	   google.maps.event.trigger(this.mapPois, "resize");	
-			   	this.mapPois.setCenter(centroide);
-			   	this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-			   }, 600);   
-			   this.detalleOficina = unidad.data;
- 			   this.item = unidad;
- 			   this.getParentApp().changeIconMapa();
- 			   this.viaDetalle = "lista";
+
+			   setTimeout(()=> {
+				   this.detalleOficina = unidad.data;
+	 			   this.item = unidad;
+	 			   this.getParentApp().changeIconMapa();
+	 			   this.viaDetalle = "lista"; 
+
+	 			    this.$.btnCerrarDetalle.style.display = 'block';
+					this.$.detalleMinimizado.style.display = 'none';
+					this.$.divCentrarGps.style.display = 'none';
+					
+					let lat = parseFloat(unidad.latitude)-dimensiones.ajusteTopMap;
+					let lng = parseFloat(unidad.longitude);
+
+					this.mapPois.setZoom(17);
+					
+					this.mapPois.setCenter(new google.maps.LatLng(lat, lng));
+					google.maps.event.trigger(this.mapPois, "resize");
+			   }, 500)
+				
+			 	this.$.detalle.style.height = dimensiones.alto;
+				this.$.detalle.style.transition = '0.5s ease-in-out'; 
 		   }
 	    	 
 	     }
 	     
-	     
-	     
 	     cerrarDetalle(){
 
-	    	 //console.log('origen->'+this.getOrigenSeleccion());
-		     
-	    	   if(this.viaDetalle === "mapa"){	
-				   this.$.mapContent.style.height = this.altoTotal+"px";
-				   this.$.detalle.style.height = "0px";	    	 
-				   this.$.detalle.style.overflow= "hidden";
-				   this.$.divCentrarGps.style.display = 'block';
-				   setTimeout(() => {
-					   google.maps.event.trigger(this.mapPois, "resize");	
-					   this.centrarOrigen();
-					   this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-				   }, 800);
-	    	   }else{
-	    		 /* let latitud  = this.getParentApp().center.latitude;
-	    		 let longitud = this.getParentApp().center.longitude; 
-		    	 this.getUnidadAtencion().loadMapa(latitud,longitud,this.item.type);*/
-		    	 this.viaDetalle = "mapa";
-		    	 this.cerrarDetalleVista(); 
-	    	   }
+		     this.$.btnCerrarDetalle.style.display = 'none';
+		 	if(this.getOrigenSeleccion() == 'list'){
+		 		this.$.detalle.style.height = "0px";
+				this.$.detalle.style.transition = '0.5s ease-in-out';
+		 		this.getParentApp()._verMapa();
+		 		this.centrarUbicacion();
+		 		this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
+				 		
+			}else{
+
+				setTimeout(()=> {
+			 		 this.$.detalleMinimizado.style.display = 'block';
+					 this.mapPois.panTo(this.eventoSeleccionadoMarker.latLng);
+					 this.mapPois.setZoom(17);
+			 	}, 500)
+			 	
+				this.$.detalle.style.height = "0px";
+				this.$.detalle.style.transition = '0.5s ease-in-out';
+
+			}
+	    	  
 	     }
 	     
-	     cerrarDetalleVista(){
-			   if(this.tipoUnidad == 'O'){
-			 		this.$.mapContent.style.transition = '0.8s ease-in-out';
-			    	this.$.mapContent.style.height = this.altoTotal+"px";
-			 		this.$.detalle.style.transition = '0.8s ease-in-out';
-			    	this.$.detalle.style.height = "0px";
-					this.$.detalle.style.overflow= "hidden";
-	  			    this.$.divCentrarGps.style.display = 'block';
-	  			  
-	  			  setTimeout(() => {
-	  			  	google.maps.event.trigger(this.mapPois, "resize");
-	  			  	if(this.origenSeleccion == 'list'){
-	  			  	this.getUnidadAtencion().showListadoUnidadAtencion();
-	  			  		this.getParentApp().setIconMap();
-			  		}	
-	  			   }, 800);
-			   }
-	     }
-	     
-	     cerrarDetalleVistaRapido(){
-	    	 if(this.tipoUnidad == 'O'){
-			 	this.$.mapContent.style.transition = '0.0s ease-in-out';
-	    	 	this.$.mapContent.style.height = this.altoTotal+"px";
-			 	this.$.detalle.style.transition = '0.0s ease-in-out';
-	    	 	this.$.detalle.style.height = "0px";
-				this.$.detalle.style.overflow= "hidden";
-			 	this.$.divCentrarGps.style.display = 'block';
-	    	 }
-	     }
-	     
-	     abrirLogin(){
+	    abrirLogin(){
 	    	 this.getParentApp().showLogin({
 					item : this.item,
 					icon: "/images/icon_marker_"+this.item.iconColor,
@@ -620,6 +406,8 @@
 		     
 					var center = {lat: this.$.parametrosConfiguracion.getParametros().posicionActual.latitude, lng: this.$.parametrosConfiguracion.getParametros().posicionActual.longitude};
 					this.mapPois.setCenter(center);
+
+					this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 	
 					
 	     }
@@ -671,9 +459,6 @@
 			   this.$.mapContent.style.height = this.altoTotal+"px";   
 		   } 
 		   
-	       
-		   
-		   
 	     }
 	 
 	     ready() {
@@ -693,8 +478,6 @@
 			    	zoom = 16;
 				}
 
-	           // console.log(zoom);
-	            
 	            SyncObjects(()=>{
 					this.altoHeader   = this.getParentApp().altoHeader;
 					this.altoPantalla = this.getParentApp().altoPantalla;

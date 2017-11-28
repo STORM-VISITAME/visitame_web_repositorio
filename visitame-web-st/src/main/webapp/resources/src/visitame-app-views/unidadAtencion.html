@@ -123,21 +123,18 @@ display: none;
        		  this.$.mapaOficinas.style.display = 'block';
           } 
          
-          this.$.mapaOficinas.setMarkers(this.listOficinas,center);
           this.$.mapaOficinas.tipoUnidad = this.tipoUnidad;
     	 
       }
       
       detalleUnidad(){
     	  if(this.unidadSeleccionada != null){
-	    	  //console.log(this.unidadSeleccionada);
 	    	  var center;
 	    	  if(this.unidadSeleccionada.latitude !== null && this.unidadSeleccionada.longitude !== null){
 	    	  	center= {latitude : parseFloat(this.unidadSeleccionada.latitude), longitude: parseFloat(this.unidadSeleccionada.longitude)};
 	    	  }
 	    	  this.cargarDetalleMapa(center);
 	    	  this.$.mapaOficinas.verDetalleOficina(this.unidadSeleccionada);
-	    	  this.unidadSeleccionada = null;
     	  }
       }
       
@@ -151,11 +148,7 @@ display: none;
        		  this.$.mapaOficinas.style.display = 'block';
           }
 
-         // console.log('envio list');
  		  this.$.mapaOficinas.setOrigenSeleccion('list');
-          
-          this.$.mapaOficinas.setMarkers(this.listOficinas,center);
-          
     	 
       }
       
@@ -204,8 +197,6 @@ display: none;
         this.getParentApp().$.btnChangeMapaView.disabled = false;
         this.$.loadingLista.style.zIndex = '-1';
 
-        /** PI6 S2 AJUSTE APP VISITAS - VISTA PRIMERO MAPA **/ 
-        
         if(this.$.mapaOficinas.getOrigenSeleccion() == 'map'){
         		this.$.oficinasRecords.style.display = 'none';
         		 if(response.data.pois.length == 0){
@@ -224,10 +215,12 @@ display: none;
 			google.maps.event.trigger(this.getMap(), "resize");
 			this.$.mapaOficinas.clearMarkers();
 			this.$.mapaOficinas.buildMarkers();
-			this.$.mapaOficinas.centrarUbicacion();
+	
+			if(!reload){
+				this.$.mapaOficinas.centrarUbicacion();
+			}
 			
 		 });
-		 /** <--END **/
 		
       }
       
@@ -238,7 +231,6 @@ display: none;
       reloadData(latitud , longitud , tipo ,reaload){
     	  this.$.loadingLista.active = true;
     	  this.getParentApp().$.btnChangeMapaView.disabled = true;
-    	  this.clearListOficinas();
     	  var geolocalizacionService = this.$.geoLocalizacionService;
 		     var requestOficinas = geolocalizacionService.listarOficinas({
 					params : {
@@ -249,38 +241,21 @@ display: none;
 						    }
 			});
 		     requestOficinas.then((xhr) => {
-				this.handleResponse(xhr.response,true);
+				this.handleResponse(xhr.response,reaload);
 				this.$.mapaOficinas.setReloadMarkers(this.listOficinas);
-				
-	/* 			if(reaload){
-					
-					this.$.mapaOficinas.refrescarMapa(this.listOficinas);
-					
-					this.$.mapaOficinas.buildMarkers();
-					
-					this.listOficinas.forEach((itemData)=>{
-						
-						if(this.$.mapaOficinas.detalleOficina.idPoi == itemData.data.idPoi){
-							this.$.mapaOficinas.detalleOficina = itemData.data;
-							this.$.mapaOficinas.item = itemData;
-						}
-						
-					});
-					
-					
-				
-				} */
+				var center = {lat: parseFloat(latitud), lng: parseFloat(longitud)};
+				this.$.mapaOficinas.getMap().setCenter(center);
+				this.$.mapaOficinas.getMap().setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);				
 				
 		    });
     	  
       }
       
-      loadMapa(latitud,longitud,tipo){
-			
+      loadMapa(latitud,longitud,tipo,reload){
+			console.log('en load mapa reload->'+reload);
     	  SyncObjects(()=>{
-        		//console.log(this.$.parametrosConfiguracion.getParametros())
         		this.resetearMapa();
-				this.reloadData(latitud , longitud , tipo , false);
+				this.reloadData(latitud , longitud , tipo , reload);
 
           });	
     	  
@@ -310,7 +285,7 @@ display: none;
     		  this.$.loadingLista.style.zIndex = '999';
           }
     	  
-    	  this.loadMapa(latitude,longitude);
+    	  this.loadMapa(latitude,longitude,this.tipoUnidad,true);
       }
      
       getMap(){
@@ -326,9 +301,6 @@ display: none;
       }
       clearListOficinas(){
     	  this.listOficinas = [];
-      }
-      clearDetalleOficina(){
-    	  this.$.mapaOficinas.cerrarDetalleVistaRapido();
       }
       
       ready(){

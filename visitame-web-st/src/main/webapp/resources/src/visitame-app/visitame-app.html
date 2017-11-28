@@ -212,8 +212,6 @@
         				}
 
         				let viewOrigen = null;
-
-        				this.changeIconMapa();
         				
         				if(this.pagina === "oficinas"){
         					viewOrigen = this.$.viewVisitas;	
@@ -223,12 +221,11 @@
         	   	  			viewOrigen = this.$.viewAgentes;	
         	   	  		}
 	        	   	  	viewOrigen.clearListOficinas();
-	        	   	 	viewOrigen.clearDetalleOficina();
 	        	   	    viewOrigen.getOficinasxUbicacion(places[0].geometry.location.lat(),places[0].geometry.location.lng());
 	        	   	 	this.center = {
 								latitude : places[0].geometry.location.lat(),
 								longitude : places[0].geometry.location.lng()
-		    				};
+		    				}; 
 	        	   	    
                  } );
 
@@ -265,10 +262,6 @@
 
          _routePageChanged(pagina) {
            this.pagina = pagina || 'oficinas';
-
-           /*if (!this.$.drawer.persistent) {
-             this.$.drawer.close();
-           }*/
          }
 
          _pageChanged(pagina) {
@@ -295,6 +288,9 @@
        	  		this.iconoMapa = 'maps:point';
        	  		this.mapaVisible = false;
        	  	}
+
+
+       	  	
          }
 
          setIconMap(){
@@ -306,7 +302,6 @@
         	
   	  		if(this.pagina === "oficinas"){
   	  			viewOrigen = this.$.viewVisitas;
-  	  		viewOrigen.clearDetalleOficina();
     	  	}else if(this.pagina === "cajeros"){
     	  		viewOrigen = this.$.viewCajeros;	
    	  		}else if(this.pagina === "agentes"){
@@ -316,6 +311,8 @@
   	  	 	this.changeIconMapa();
   	  	 	viewOrigen.cargarMapa(this.center);
          }
+
+       
 
     	 init(loading){
 	   		 this.$.parametrosConfiguracion.init(loading);
@@ -339,8 +336,6 @@
    	  		this.setFalse();
 			if(data){
 				this.$.loginView.renderData(data);
-// 				this.$.loginView.cargarSeguridad();
-// 				this.$.loginView.recargarCapcha();
 			}
 	    	this.$.ironPagesMain.style.display = 'none';
 			this.$.headerMain.style.display = 'none';
@@ -368,7 +363,6 @@
        	  super.ready();
        	  this.init(this.$.loadingMain);
        	  this.initBusquedaDireccions();
-       	 // this.showLogin();
        	  this.altoHeader   = this.$.header.clientHeight;
        	  this.altoPantalla = this.parentElement.clientHeight;
        	
@@ -390,7 +384,6 @@
             	this.altoPantalla = this.parentElement.clientHeight;
             	this.SyncObject(()=>{
             		let mapa = this.$.viewVisitas.getMapaOficina();
-            		//mapa.reloadSizeDetalle();
             	});
         	}
         }
