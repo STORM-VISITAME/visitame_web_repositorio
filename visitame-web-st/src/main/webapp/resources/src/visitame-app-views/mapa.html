@@ -329,6 +329,7 @@
 		        				   this.distance = parseFloat(this.detalleOficina.distance).toFixed(0)+'M'
 			        		   }
 
+	      			 		   this.$.divCentrarGps.style.display = 'block';
 	        				   this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
 		        			   
 							   console.log(this.detalleOficina)
@@ -391,6 +392,8 @@
 
 				setTimeout(()=> {
 			 		 this.$.detalleMinimizado.style.display = 'block';
+			 		 this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
+			 		 this.$.divCentrarGps.style.display = 'block';
 					 this.mapPois.panTo(this.eventoSeleccionadoMarker.latLng);
 					 this.mapPois.setZoom(17);
 			 	}, 500)
