@@ -44,11 +44,11 @@
     const contextST = '<%=contextST%>';
     const IP_REMOTE = '<%=request.getRemoteAddr()%>';
     // Load and register pre-caching Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('<%=contextST%><%=dirStatic%>/service-worker.js');
-      });
-    }
+    //if ('serviceWorker' in navigator) {
+    //  window.addEventListener('load', function() {
+    //    navigator.serviceWorker.register('<%=contextST%><%=dirStatic%>/service-worker.js');
+    //  });
+    //}
     </script>
     <script src="<%=contextST%><%=dirStatic%>/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 

@@ -71,10 +71,10 @@
 		</div>  
 		
 		<div id = "detalleMinimizado" style="display: none;" on-click="mostrarItemDetalle">
-			<h1>{{detalleOficina.description}}</h1>
+			<h1>{{detalleOficina.tituloMinimizado}}</h1>
 			<div class="numKm">{{distance}}</div>
 			<div style="clear: both;"></div>
-			<p>{{detalleOficina.address3puntos}} ({{detalleOficina.province}})</p>
+			<p>{{detalleOficina.addressMinimizado}} ({{detalleOficina.provinceMinimizado}})</p>
 			
 		</div>
 		
@@ -319,7 +319,9 @@
         				       this.mapPois.panTo(marker.getPosition());
         				       this.mapPois.setZoom(17);
 
-        				       item.data.address3puntos = (item.data.address.length > 40?item.data.address.substr(0,37)+'...':item.data.address);
+        				       item.data.tituloMinimizado = (item.data.description.length > 24?item.data.description.substr(0,21)+'...':item.data.description);
+        				       item.data.addressMinimizado = (item.data.address.length > 38?item.data.address.substr(0,35)+'...':item.data.address);
+        				       item.data.provinceMinimizado = (item.data.province.length > 6?item.data.province.substr(0,3)+'...':item.data.province);
 	        				   
 	        				   this.detalleOficina = item.data;
 	        				
