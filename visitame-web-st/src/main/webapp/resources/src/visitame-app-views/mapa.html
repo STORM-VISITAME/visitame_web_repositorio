@@ -255,23 +255,9 @@
 	      }
 	      
 	      sendNavigation(){
-
-	    	  //this.$.rutaMapa.open();
 	    	  this.getParentApp().$.idModalRuta.abrir();
 	    	  this.getParentApp().$.idModalRuta.setMapa(this);
 	    	  
-
-/* 	    	  if(this.detalleOficina){
-	    		  
-	    	  	let latitudeActual  = this.$.parametrosConfiguracion.getParametros().posicionActual.latitude;
-	    	  	let longitudeActual= this.$.parametrosConfiguracion.getParametros().posicionActual.longitude;
-	    	  	let latitudeIr = this.detalleOficina.latitude;
-	    	  	let longitudeIr = this.detalleOficina.longitude;
-	    	  	
-	    	  	window.open("http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr,'_blank'); 
-			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
-	    	  }else
-	    		  console.log("Detalle de Oficina Seleccionada no se encontrÃ³"); */
 		  }
 	      
 	      reAjusteMap(){
