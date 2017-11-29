@@ -28,11 +28,11 @@
 		</div>
 		<div id="contenedorMapaDetalle">
 			<div id = "mapContent"></div>
-			<div id="detalle" class="contenedor" style="height: 0px;">
+			<div id="detalle" class="contenedor" style="height: 0px;display: none;">
 				<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>
 				<div style = 'width:  90%; display: block; padding: 5%;'>
 				<div  class="bloque">
-					<label style="width: 100%;" class="titulo">{{detalleOficina.address2}}</label>
+					<label style="width: 100%;" class="titulo">{{detalleOficina.description}}</label>
 					<label style="width: 100%;" class="subTitulo">{{detalleOficina.address}}</label>
 					<!--
 					<iron-icon icon="social:person" class="icono" ></iron-icon><label style="width: 90%; color:#008CDB;" class="subTitulo-bold">Número estimado de clientes en espera:{{detalleOficina.saturacion}}</label>
@@ -182,10 +182,10 @@
 				      dimenciones.alto = "290px";
 		    		  dimenciones.ajusteTopMap = 0.0012;
 			   }else if(window.innerHeight >= 732 && window.innerHeight <= 750){
-				      dimenciones.alto = "320px";
+				      dimenciones.alto = "330px";
 		    		  dimenciones.ajusteTopMap = 0.0015;
 			   }else{
-				   dimenciones.alto = "340px";
+				   dimenciones.alto = "360px";
 				   dimenciones.ajusteTopMap = 0.0015;
 			   }
 	    	  return dimenciones;
@@ -201,7 +201,7 @@
 			}
 
 	      mostrarItemDetalle(){
-				
+	    	    this.$.detalle.style.display = 'block';
 				this.$.btnCerrarDetalle.style.display = 'block';
 				this.$.detalleMinimizado.style.display = 'none';
 				this.$.divCentrarGps.style.display = 'none';
@@ -299,7 +299,7 @@
 	        				   this.$.btnCerrarDetalle.style.display = 'none';
 	        				   this.$.detalle.style.transition = '0s ease-in-out'; 
 	        				   this.$.detalle.style.height = '0px';
-	        		
+	        				   this.$.detalle.style.display='none';	
 	        				   
         				   	   this.$.detalleMinimizado.style.display = 'block';
         				       this.mapPois.panTo(marker.getPosition());
@@ -339,7 +339,9 @@
 
 		     let dimensiones = this.getDimensionesDetalle();
 	    	 if(unidad.type == 'O'){
-
+	    		 this.$.detalle.style.display = 'block';
+	    		 this.$.detalleMinimizado.style.display = 'none';
+					this.$.divCentrarGps.style.display = 'none';
 			   setTimeout(()=> {
 				   this.detalleOficina = unidad.data;
 	 			   this.item = unidad;
@@ -347,8 +349,7 @@
 	 			   this.viaDetalle = "lista"; 
 
 	 			    this.$.btnCerrarDetalle.style.display = 'block';
-					this.$.detalleMinimizado.style.display = 'none';
-					this.$.divCentrarGps.style.display = 'none';
+					
 					
 					let lat = parseFloat(unidad.latitude)-dimensiones.ajusteTopMap;
 					let lng = parseFloat(unidad.longitude);
@@ -357,17 +358,27 @@
 					
 					this.mapPois.setCenter(new google.maps.LatLng(lat, lng));
 					google.maps.event.trigger(this.mapPois, "resize");
-			   }, 500)
+					
+			   }, 510)
 				
-			 	this.$.detalle.style.height = dimensiones.alto;
-				this.$.detalle.style.transition = '0.5s ease-in-out'; 
+				setTimeout(() => {
+					this.$.detalle.style.height = dimensiones.alto;
+					this.$.detalle.style.transition = '0.5s ease-in-out'; 
+				}, 10);
+				
+			 	
 		   }
 	    	 
 	     }
 	     
 	     cerrarDetalle(){
 
-		     this.$.btnCerrarDetalle.style.display = 'none';
+		    this.$.btnCerrarDetalle.style.display = 'none';
+
+		    setTimeout(() => {
+		    	this.$.detalle.style.display = 'none';
+			}, 500);
+		    
 		 	if(this.getOrigenSeleccion() == 'list'){
 		 		this.$.detalle.style.height = "0px";
 				this.$.detalle.style.transition = '0.5s ease-in-out';
