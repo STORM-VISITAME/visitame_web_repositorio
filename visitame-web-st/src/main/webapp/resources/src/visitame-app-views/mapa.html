@@ -391,6 +391,8 @@
 
 				setTimeout(()=> {
 			 		 this.$.detalleMinimizado.style.display = 'block';
+			 		 this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
+			 		this.$.divCentrarGps.style.display = 'block';
 					 this.mapPois.panTo(this.eventoSeleccionadoMarker.latLng);
 					 this.mapPois.setZoom(17);
 			 	}, 500)
