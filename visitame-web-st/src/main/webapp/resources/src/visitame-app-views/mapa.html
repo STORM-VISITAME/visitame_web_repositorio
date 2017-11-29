@@ -173,19 +173,19 @@
 	    	  let dimenciones = {};
 
 	    	  if(window.innerHeight > 0 && window.innerHeight <= 570){
-	    		  dimenciones.alto = "270px";
+	    		  dimenciones.alto = "290px";
 	    		  dimenciones.ajusteTopMap = 0.0012;
 			   }else if(window.innerHeight > 570 && window.innerHeight <= 640){
-				      dimenciones.alto = "250px";
+				      dimenciones.alto = "270px";
 		    		  dimenciones.ajusteTopMap = 0.0011;
-			   }else if(window.innerHeight > 640 && window.innerHeight <= 732){
-				      dimenciones.alto = "260px";
-		    		  dimenciones.ajusteTopMap = 0.0012;
-			   }else if(window.innerHeight > 732 && window.innerHeight <= 750){
+			   }else if(window.innerHeight > 640 && window.innerHeight < 732){
 				      dimenciones.alto = "290px";
+		    		  dimenciones.ajusteTopMap = 0.0012;
+			   }else if(window.innerHeight >= 732 && window.innerHeight <= 750){
+				      dimenciones.alto = "320px";
 		    		  dimenciones.ajusteTopMap = 0.0015;
 			   }else{
-				   dimenciones.alto = "320px";
+				   dimenciones.alto = "340px";
 				   dimenciones.ajusteTopMap = 0.0015;
 			   }
 	    	  return dimenciones;
@@ -196,6 +196,8 @@
 			  this.$.btnCerrarDetalle.style.display = 'none';
 			  this.$.detalleMinimizado.style.display = 'none';
 			  this.$.detalle.style.height = '0px';
+		      this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
+		 	  this.$.divCentrarGps.style.display = 'block';
 			}
 
 	      mostrarItemDetalle(){
@@ -332,11 +334,8 @@
 	      			 		   this.$.divCentrarGps.style.display = 'block';
 	        				   this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
 		        			   
-							   console.log(this.detalleOficina)
 			        		   this.item = item;
 		        			   this.eventoSeleccionadoMarker = e;
-		        			  // this.detalleOficina.address3puntos = new Object;			
-		        			  // this.detalleOficina.address3puntos = 'aaaaa'; //(this.detalleOficina.address.length > 100?this.detalleOficina.address.substr(0,97)+'...':this.detalleOficina.address);
 	        			   } 
 	        			   
 	        		  });
@@ -428,7 +427,8 @@
 					this.mapPois.setCenter(center);
 
 					this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
-	
+
+					this.ocultarDetalle();
 					
 	     }
 	     
