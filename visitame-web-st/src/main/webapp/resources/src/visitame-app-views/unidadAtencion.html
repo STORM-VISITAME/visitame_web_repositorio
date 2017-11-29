@@ -279,6 +279,7 @@ display: none;
       }
       getOficinasxUbicacion(latitude, longitude){
 		  this.$.noResultList.style.display = 'none';
+		  this.$.mapaOficinas.setOrigenSeleccion('map');
     	  if(!this.$.loadingLista.active){
     		  this.$.loadingLista.active = true;
     		  this.getParentApp().$.btnChangeMapaView.disabled = true;
