@@ -83,7 +83,10 @@ display: none;
               unidadSeleccionada:{
             	    type: Object,
             	    observer: 'detalleUnidad',
-              }
+              },
+              unidadSeleccionadaMemory:{
+          	    type: Object
+            }
         }
       }
 
@@ -114,6 +117,10 @@ display: none;
 	  }	
       
       cargarMapa(center){
+    	  
+    	  if( this.unidadSeleccionada != null && this.unidadSeleccionada == this.unidadSeleccionadaMemory){
+    		  this.unidadSeleccionada = null;
+    	  }
     
          if(this.$.mapaOficinas.style.display == 'block'){
         	  this.$.oficinasRecords.style.display = 'block';
@@ -128,7 +135,9 @@ display: none;
       }
       
       detalleUnidad(){
+    	  
     	  if(this.unidadSeleccionada != null){
+    		  this.unidadSeleccionadaMemory = this.unidadSeleccionada;
 	    	  var center;
 	    	  if(this.unidadSeleccionada.latitude !== null && this.unidadSeleccionada.longitude !== null){
 	    	  	center= {latitude : parseFloat(this.unidadSeleccionada.latitude), longitude: parseFloat(this.unidadSeleccionada.longitude)};
@@ -205,6 +214,7 @@ display: none;
         	        	this.$.mapaOficinas.style.display = 'block';
         	        }
             }else{
+            	this.unidadSeleccionada.longitude = 0;
             	this.$.oficinasRecords.style.display = 'block';
             	this.$.mapaOficinas.style.display = 'none';
         }
