@@ -173,16 +173,16 @@
 	    	  let dimenciones = {};
 
 	    	  if(window.innerHeight > 0 && window.innerHeight <= 570){
-	    		  dimenciones.alto = "290px";
-	    		  dimenciones.ajusteTopMap = 0.0012;
+	    		  dimenciones.alto = "315px";
+	    		  dimenciones.ajusteTopMap = 0.0014;
 			   }else if(window.innerHeight > 570 && window.innerHeight <= 640){
-				      dimenciones.alto = "270px";
+				      dimenciones.alto = "300px";
 		    		  dimenciones.ajusteTopMap = 0.0011;
 			   }else if(window.innerHeight > 640 && window.innerHeight < 732){
 				      dimenciones.alto = "290px";
 		    		  dimenciones.ajusteTopMap = 0.0012;
 			   }else if(window.innerHeight >= 732 && window.innerHeight <= 750){
-				      dimenciones.alto = "330px";
+				      dimenciones.alto = "350px";
 		    		  dimenciones.ajusteTopMap = 0.0015;
 			   }else{
 				   dimenciones.alto = "360px";
@@ -278,8 +278,8 @@
 	     setDataDetalle(item){
 
 	    	 this.detalleOficina = {};
-		     item.data.tituloMinimizado = (item.data.description.length > 32?item.data.description.substr(0,29)+'...':item.data.description);
-		     item.data.addressMinimizado = (item.data.address.length > 38?item.data.address.substr(0,35)+'...':item.data.address);
+		     item.data.tituloMinimizado = (item.data.description.length > 31?item.data.description.substr(0,28)+'...':item.data.description);
+		     item.data.addressMinimizado = (item.data.address.length > 36?item.data.address.substr(0,33)+'...':item.data.address);
 		     item.data.provinceMinimizado = (item.data.province.length > 6?item.data.province.substr(0,3)+'...':item.data.province);
 			 this.detalleOficina = item.data;
 			
