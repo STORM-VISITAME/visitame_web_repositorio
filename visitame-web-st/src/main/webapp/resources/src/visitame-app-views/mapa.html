@@ -274,6 +274,26 @@
 	    	  this.dataMarkers = data;
 	    	 
 	      }
+
+	     setDataDetalle(item){
+
+	    	 this.detalleOficina = {};
+		     item.data.tituloMinimizado = (item.data.description.length > 32?item.data.description.substr(0,29)+'...':item.data.description);
+		     item.data.addressMinimizado = (item.data.address.length > 38?item.data.address.substr(0,35)+'...':item.data.address);
+		     item.data.provinceMinimizado = (item.data.province.length > 6?item.data.province.substr(0,3)+'...':item.data.province);
+			 this.detalleOficina = item.data;
+			
+			 var enKm = (parseFloat(this.detalleOficina.distance)/1000);
+
+			 if(enKm >= 1){
+			   this.distance = (enKm.toFixed(1)==1?'1':enKm.toFixed(1))+'KM'
+			 }else{
+			   this.distance = parseFloat(this.detalleOficina.distance).toFixed(0)+'M'
+  		     }
+
+			 this.item = item;
+	    	 
+		 } 
 	      
 	     buildMarkers(){
 	    	 if(this.markers.length > 0) {  this.clearMarkers(); }
@@ -305,25 +325,14 @@
         				       this.mapPois.panTo(marker.getPosition());
         				       this.mapPois.setZoom(17);
 
-        				       item.data.tituloMinimizado = (item.data.description.length > 24?item.data.description.substr(0,21)+'...':item.data.description);
-        				       item.data.addressMinimizado = (item.data.address.length > 38?item.data.address.substr(0,35)+'...':item.data.address);
-        				       item.data.provinceMinimizado = (item.data.province.length > 6?item.data.province.substr(0,3)+'...':item.data.province);
+        				       this.setDataDetalle(item);
 	        				   
-	        				   this.detalleOficina = item.data;
-	        				
-	        				   var enKm = (parseFloat(this.detalleOficina.distance)/1000);
-	        	
-	        				   if(enKm >= 1){
-	        					   this.distance = (enKm.toFixed(1)==1?'1':enKm.toFixed(1))+'KM'
-		        			   }else{
-		        				   this.distance = parseFloat(this.detalleOficina.distance).toFixed(0)+'M'
-			        		   }
+		        			   this.eventoSeleccionadoMarker = e;
 
 	      			 		   this.$.divCentrarGps.style.display = 'block';
 	        				   this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
 		        			   
-			        		   this.item = item;
-		        			   this.eventoSeleccionadoMarker = e;
+			        		   
 	        			   } 
 	        			   
 	        		  });
@@ -373,33 +382,43 @@
 	     
 	     cerrarDetalle(){
 
+	    	 
 		    this.$.btnCerrarDetalle.style.display = 'none';
-
+			if(this.item){
+				 this.setDataDetalle(this.item);
+			}
 		    setTimeout(() => {
 		    	this.$.detalle.style.display = 'none';
 			}, 500);
-		    
-		 	if(this.getOrigenSeleccion() == 'list'){
+
+		    //ESTE CODIGO FUE COMENTADO PARA DESHABILITAR EL RETORNO A LISTADO SI PROVINO DE LISTADO 
+		 	/* if(this.getOrigenSeleccion() == 'list'){
 		 		this.$.detalle.style.height = "0px";
 				this.$.detalle.style.transition = '0.5s ease-in-out';
 		 		this.getParentApp()._verMapa();
 		 		this.centrarUbicacion();
 		 		this.mapPois.setZoom(this.$.parametrosConfiguracion.getParametros().zoomMapGen || 16);
 				 		
-			}else{
+			}else{ */
 
 				setTimeout(()=> {
 			 		 this.$.detalleMinimizado.style.display = 'block';
 			 		 this.$.divCentrarGps.style.bottom = (this.$.detalleMinimizado.clientHeight+16)+'px';
 			 		 this.$.divCentrarGps.style.display = 'block';
-					 this.mapPois.panTo(this.eventoSeleccionadoMarker.latLng);
+			 		 if(this.eventoSeleccionadoMarker && this.eventoSeleccionadoMarker.latLng){
+						 this.mapPois.panTo(this.eventoSeleccionadoMarker.latLng);
+					}else{
+						let lat = parseFloat(this.detalleOficina.latitude);
+						let lng = parseFloat(this.detalleOficina.longitude);
+						this.mapPois.setCenter(new google.maps.LatLng(lat, lng)); 
+					}
 					 this.mapPois.setZoom(17);
 			 	}, 500)
 			 	
 				this.$.detalle.style.height = "0px";
 				this.$.detalle.style.transition = '0.5s ease-in-out';
 
-			}
+			/* } */
 	    	  
 	     }
 	     
