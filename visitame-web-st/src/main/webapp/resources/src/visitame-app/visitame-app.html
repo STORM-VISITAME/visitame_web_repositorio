@@ -277,6 +277,9 @@
             Polymer.importHref( resolvedPageUrl,  null, this._showPage404.bind(this), true);
            
            	this.iconoMapa = "list";
+
+           	
+           	
          }
 
          _showPage404() {
@@ -301,6 +304,7 @@
          }
          
          _verMapa(){
+           
         	let viewOrigen = null;
         	
   	  		if(this.pagina === "oficinas"){
@@ -392,7 +396,7 @@
         }
 
          _regresar(){
-       	  window.location.href='visitame/oficinas';
+       	  window.location.href='ubicanos/oficinas';
        	  this.pagina ="oficinas";
          }
 
