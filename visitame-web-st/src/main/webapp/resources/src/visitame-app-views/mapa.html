@@ -52,13 +52,17 @@
 					<label style="width: 35%; padding-top:0.5%;" class="subTitulo">{{detalleOficina.telephone}}</label>
 
 				</div>
-				<div class="bloque">
+				<!--  <div class="bloque">
 				    <iron-icon icon="flag" class="icono" ></iron-icon>
 					<label style="width: 55%;" class="subTitulo-bold">Rutas</label>
 					<div style="width: 35%; padding-top:0.5%; float:left;" >
 						<paper-button on-tap="sendNavigation" class="botonComoLlegar botonComollegarLink" noink>¿Como llegar?</paper-button>
 					</div>
+				</div> -->
+				<div class="botonera" >
+					<paper-button id= "btnRutas" class="boton boton-ticket2" style="width:100%; margin-bottom:2%;" on-click="sendNavigation">¿Como llegar?</paper-button>
 				</div>
+				
 				<div class="botonera" >
 					<paper-button id= "btnReservarTicket" class="boton boton-ticket" style="width:100%; margin-bottom:2%;" on-click="abrirLogin">Reservar ticket de atención</paper-button>
 					<!--<paper-button class="boton" style="width:100%;" on-click="cerrarDetalle">Cancelar</paper-button> -->
