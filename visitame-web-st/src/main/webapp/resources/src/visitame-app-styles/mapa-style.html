@@ -22,6 +22,11 @@ html, body {
 	height: 45px;
 }
 
+#AbrirDetalle {
+	margin: 2px 2px 2px 200px;
+	top: -10px;
+}
+
 .mapa {
 	width: 100%;
 	position: inherit !important;
@@ -74,8 +79,8 @@ border-top-right-radius: 6px;
 }
 
 .titulo {
-	/* font-size: 1.3em;
-	font-weight: bold; */
+	/* font-size: 1.3em;  */
+	font-weight: bold; 
 	font-size: 1.1em;
 	color: #535C6A;
 	font-family: 'Roboto', 'Noto', sans-serif;
@@ -137,16 +142,16 @@ paper-button.boton-ticket {
 }
 
 paper-button.boton-ticket2 {
-	background: -moz-linear-gradient(91deg, rgba(244, 246, 245, 1) 0%, rgba(252, 254, 253, 1) 100%); /* ff3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(244, 246, 245, 1)), color-stop(100%, rgba(252, 254, 253, 1))); /* safari4+,chrome */
-	background: -webkit-linear-gradient(91deg, rgba(244, 246, 245, 1) 0%, rgba(252, 254, 253, 1) 100%); /* safari5.1+,chrome10+ */
-	background: -o-linear-gradient(91deg, rgba(244, 246, 245, 1) 0%, rgba(252, 254, 253, 1) 100%); /* opera 11.10+ */
-	background: -ms-linear-gradient(91deg, rgba(244, 246, 245, 1) 0%, rgba(252, 254, 253, 1) 100%); /* ie10+ */
-	background: linear-gradient(359deg, rgba(244, 246, 245, 1) 0%, rgba(252, 254, 253, 1) 100%); /* w3c */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfefd', endColorstr='#f4f6f5',GradientType=0 ); /* ie6-9 */
-	color: #015DA2;
+	background: -moz-linear-gradient(91deg, rgba(231, 231, 231, 1) 0%, rgba(255, 255, 255, 1) 100%); /* ff3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(100%, rgba(231, 231, 231, 1))); /* safari4+,chrome */
+	background: -webkit-linear-gradient(91deg, rgba(231, 231, 231, 1) 0%, rgba(255, 255, 255, 1) 100%); /* safari5.1+,chrome10+ */
+	background: -o-linear-gradient(91deg, rgba(231, 231, 231, 1) 0%, rgba(255, 255, 255, 1) 100%); /* opera 11.10+ */
+	background: -ms-linear-gradient(91deg, rgba(231, 231, 231, 1) 0%, rgba(255, 255, 255, 1) 100%); /* ie10+ */
+	background: linear-gradient(359deg, rgba(231, 231, 231, 1) 0%, rgba(255, 255, 255, 1) 100%); /* w3c */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e7e7e7',GradientType=0 ); /* ie6-9 */
+	color: #0064b0;
 	border-width: 1px; 
-	border-color: #015DA2;
+	border-color: #b5c6d5;
 	border-style: solid;
 	border-radius: 5px;
 	text-transform: none;
@@ -182,7 +187,7 @@ iron-icon.iconoTelefono { -
 	font-size: 1em;
 	color: #535C6A;
 	font-family: 'Roboto', 'Noto', sans-serif;
-	margin: 20px 20px 2px 20px;
+	margin: 2px 2px 2px 20px;
 	padding: 0 0 7px 0;
 	line-height: 1em;
 	float: left;
@@ -212,7 +217,7 @@ iron-icon.iconoTelefono { -
 	border-radius: 4px;
 	font-size: 0.9em;
 	color: #535C6A;
-	margin: 10px 10px 0px 0px;
+	margin: 1px 10px 0px 0px;
 	float: right;
 	width: 11%;
 }
@@ -239,10 +244,8 @@ iron-icon.iconoTelefono { -
 
 .iconoAbrir {
 	position: absolute;
-	top: -20px;
-	right: 180px;
-	width: 50px;
-	height: 50px;
+	top: -10px;
+	right: 172px;
 	z-index: 12;
 	display: none;
 }

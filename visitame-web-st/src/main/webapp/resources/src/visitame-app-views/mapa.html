@@ -29,7 +29,7 @@
 		<div id="contenedorMapaDetalle">
 			<div id = "mapContent"></div>
 			<div id="detalle" class="contenedor" style="height: 0px;display: none;">
-			    <paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoAbrir" on-click="cerrarDetalle" ></paper-icon-button>
+			    <paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/masinfo.png" class="iconoAbrir" on-click="cerrarDetalle" ></paper-icon-button>
 				<!--<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>-->	
 				<div style = 'width:  90%; display: block; padding: 5%;'>
 				<div  class="bloque">
@@ -76,6 +76,7 @@
 		</div>  
 		
 		<div id = "detalleMinimizado" style="display: none;" on-click="mostrarItemDetalle">
+		    <img id="AbrirDetalle" src="{{dirResources}}/images/masinfo.png"> 
 			<h1>{{detalleOficina.tituloMinimizado}}</h1>
 			<div class="numKm">{{distance}}</div>
 			<div style="clear: both;"></div>
