@@ -3,7 +3,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
-
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../visitame-app-styles/leyenda-style.html">
 <dom-module id="modal-ruta-mapa">
     <template>
@@ -14,21 +14,46 @@
         <paper-dialog  class="ventana roundbox boxshadow" id="rutaMapa" style="text-align:center;" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
             <div
 				style="width: 90%; height: 100%; display: inline-block; padding: 0px;">
-				<div style="width: 100%; font-size: 1.4em;">Llega con:</div>
-				<div style="height: 40px; width: 250px; margin-top: 15px;">
-					<paper-button src="{{pathParent}}images/googleMap.jpg" on-tap="abritGoogleMap" style="text-transform: capitalize;">
-						<iron-icon src="{{pathParent}}images/googleMap.jpg" style="margin-right: 2px;" ></iron-icon>
-						Google maps
-					</paper-button>
-				</div>
+				<div style="width: 100%; font-size: 1.4em;">Llega con</div>
 
-				<div style="height: 40px; width: 198px; ">
-					<paper-button src="{{pathParent}}images/waze.jpg" on-tap="abrirMapaWaze" style="text-transform: capitalize;">
-						<iron-icon src="{{pathParent}}images/waze.jpg"  style="margin-right: 2px;"  ></iron-icon>
-						Waze
-					</paper-button>		
-				</div>
-				<div style="width: 100%; margin-top: 3%; font-size: 0.7em; color: darkblue;">*Debes tener instalada la aplicación que elijas.</div>
+				<paper-menu id="rutasOficina" selected="{{observerRutaGoogleMap}}" class="principal"> 
+					<paper-item class="segundo">
+						<div style="height: 40px; width: 250px;" class="contenedor">
+							<div style="float: left" class="logoEstadoOficina">
+								<img src="{{pathParent}}images/googleMap.jpg"
+									style="margin-right: 2px;" />
+							</div>
+							<div style=" width: 120px; float: left; padding:5%;">
+								<label class="titulo"
+									style="width: 90%;  height:60px; float: left; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Google
+									maps</label>
+								<paper-icon-button icon="my-icons:chevron-right">
+								</paper-icon-button>
+							</div>
+
+						</div>
+					</paper-item> 
+				</paper-menu>
+				
+				<paper-menu id="rutasOficina" selected="{{observerRutaWaze}}" class="principal"> 
+					<paper-item class="segundo">
+						<div style="width: 100%;" class="contenedor">
+							<div style="float: left" class="logoEstadoOficina">
+								<img src="{{pathParent}}images/waze.jpg"
+									style="margin-right: 2px;" />
+							</div>
+							<div style="width: 80%; float: left">
+								<label class="titulo"
+									style="width: 100%; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Waze</label>
+								<paper-icon-button icon="my-icons:chevron-right">
+								</paper-icon-button>
+							</div>
+
+						</div>
+					</paper-item> 
+				</paper-menu> 
+		
+			<div style="width: 100%; margin-top: 3%; font-size: 0.7em; color: darkblue;">*Debes tener instalada la aplicación que elijas.</div>
 				<div style="width: 100%;">
 					<paper-button class="aceptar" on-click="cerrar" style="margin-top: 6px;" >Cancelar</paper-button>
 				</div>
@@ -50,7 +75,15 @@
                 
                 	mapa : {
 						type: Object
-              		}
+              		},
+              		observerRutaGoogleMap:{
+                	    type: Object,
+                	    observer: 'abritGoogleMap',
+                    },
+              		observerRutaWaze:{
+                	    type: Object,
+                	    observer: 'abrirMapaWaze',
+                    }
                 };
             }
             ready() {
