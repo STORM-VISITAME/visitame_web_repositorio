@@ -3,7 +3,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
-
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../visitame-app-styles/leyenda-style.html">
 <dom-module id="modal-ruta-mapa">
     <template>
@@ -14,21 +14,29 @@
         <paper-dialog  class="ventana roundbox boxshadow" id="rutaMapa" style="text-align:center;" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop>
             <div
 				style="width: 90%; height: 100%; display: inline-block; padding: 0px;">
-				<div style="width: 100%; font-size: 1.4em;">Llega con:</div>
-				<div style="height: 40px; width: 250px; margin-top: 15px;">
-					<paper-button src="{{pathParent}}images/googleMap.jpg" on-tap="abritGoogleMap" style="text-transform: capitalize;">
-						<iron-icon src="{{pathParent}}images/googleMap.jpg" style="margin-right: 2px;" ></iron-icon>
-						Google maps
-					</paper-button>
-				</div>
-
-				<div style="height: 40px; width: 198px; ">
-					<paper-button src="{{pathParent}}images/waze.jpg" on-tap="abrirMapaWaze" style="text-transform: capitalize;">
-						<iron-icon src="{{pathParent}}images/waze.jpg"  style="margin-right: 2px;"  ></iron-icon>
-						Waze
-					</paper-button>		
-				</div>
-				<div style="width: 100%; margin-top: 3%; font-size: 0.7em; color: darkblue;">*Debes tener instalada la aplicación que elijas.</div>
+				<div style="width: 100%; font-size: 1.4em;">Llega con</div>
+				<div style="width: 100%; margin-top: 3%; font-size: 0.7em; color: #015DA2;">Debes tener instalada la aplicación que elijas.</div>
+				<paper-menu id="rutasOficina" attr-for-selected="data-ruta" selected="{{observerRuta}}" class="principal"> 
+					<template is="dom-repeat" items="{{tipoRuta}}" >
+						<paper-item class="segundo" data-ruta="{{item}}" style="border: solid 1px #EEEEEE;">
+							<div style="height: 40px; width: 100%;" class="contenedor">
+								<div style="float: left" class="logoEstadoOficina">
+									<img src="{{pathParent}}images/{{item.rutaImagen}}"
+										style="margin-right: 2px;" />
+								</div>
+								<div style=" width: 82%; heigth:100%; float: left;">
+									<label class="titulo"
+										style="width: 61%; height:100%; float: left; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; line-height:2.5;">
+										{{item.nombre}}
+										</label>
+									<paper-icon-button noink icon="my-icons:chevron-right" style="position: absolute !important; color: #F6F6F6;">
+									</paper-icon-button>
+								</div>
+	
+							</div>
+						</paper-item> 
+					</template>
+				</paper-menu> 
 				<div style="width: 100%;">
 					<paper-button class="aceptar" on-click="cerrar" style="margin-top: 6px;" >Cancelar</paper-button>
 				</div>
@@ -50,40 +58,60 @@
                 
                 	mapa : {
 						type: Object
-              		}
+              		},
+              		observerRuta:{
+                	    type: Object,
+                	    observer: 'abrirMap',
+                    },
+                    observerRutaMemory:{
+                	    type: Object
+                  	},
+              		tipoRuta : {
+                        type : Array,
+                        value : []
+                    },
+                    rutaGoogle : {
+						type: Object
+              		},
+              		rutaWaze : {
+						type: Object
+              		},
+                    
+                    
                 };
             }
             ready() {
                 super.ready();
+                
+                this.rutaGoogle = {rutaImagen:"googleMap.jpg", nombre:"Google maps"};
+                this.rutaWaze   = {rutaImagen:"waze.jpg", nombre:"Waze"};
+                this.tipoRuta.push(this.rutaGoogle);
+                this.tipoRuta.push(this.rutaWaze);
             }
 
-            abritGoogleMap() {
-            	  if(this.getMapa().detalleOficina){
-      	    	  	let latitudeActual  = this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.latitude;
-      	    	  	let longitudeActual= this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.longitude;
-      	    	  	let latitudeIr = this.getMapa().detalleOficina.latitude;
-      	    	  	let longitudeIr = this.getMapa().detalleOficina.longitude;
-      	    	  	
-      	    	  	window.open("http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr,'_blank'); 
-      			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
-      	    	  }else{
-      	    		  console.log("Detalle de Oficina Seleccionada no se encontró");
-      	    	  }
-            }
-            
-            abrirMapaWaze() {
+            abrirMap() {
             	if(this.getMapa().detalleOficina){
-      	    	  	let latitudeActual  = this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.latitude;
-      	    	  	let longitudeActual= this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.longitude;
-      	    	  	let latitudeIr = this.getMapa().detalleOficina.latitude;
-      	    	  	let longitudeIr = this.getMapa().detalleOficina.longitude;
-      	    	  	
-      	    	  	window.open("https://waze.com/ul?ll="+latitudeActual+","+longitudeActual+"&z=10&navigate=yes",'_blank'); 
-      			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
-      	    	  }else{
-      	    		  console.log("Detalle de Oficina Seleccionada no se encontró");
-      	    	  }
-            }
+            		if(this.observerRuta != null){
+            			let latitudeActual  = this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.latitude;
+          	    	  	let longitudeActual= this.getMapa().$.parametrosConfiguracion.getParametros().posicionActual.longitude;
+          	    	  	let latitudeIr = this.getMapa().detalleOficina.latitude;
+          	    	  	let longitudeIr = this.getMapa().detalleOficina.longitude;
+          	    	  	
+                	  if(this.observerRuta.nombre == this.rutaGoogle.nombre){
+          	    	  	window.open("http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr,'_blank');
+          	    	  	this.observerRutaMemory = this.observerRuta;
+          	    	  	this.observerRuta = null;
+          			  //	window.location="http://maps.google.com/maps?saddr="+latitudeActual+","+longitudeActual+"&daddr="+latitudeIr+","+longitudeIr;
+          	    	  } else if (this.observerRuta.nombre == this.rutaWaze.nombre){
+          	    		window.open("https://waze.com/ul?ll="+latitudeActual+","+longitudeActual+"&z=10&navigate=yes",'_blank');
+          	    		this.observerRutaMemory = this.observerRuta;
+          	    		this.observerRuta = null;
+          	    	  }else{
+          	    		  console.log("Detalle de Oficina Seleccionada no se encontró");
+          	    	  }	
+            		}
+            	}
+           	}
             
             abrir() {
             	 this.$.rutaMapa.open();

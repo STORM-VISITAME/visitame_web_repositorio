@@ -29,7 +29,8 @@
 		<div id="contenedorMapaDetalle">
 			<div id = "mapContent"></div>
 			<div id="detalle" class="contenedor" style="height: 0px;display: none;">
-				<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>
+			    <paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/masinfo.png" class="icoCerrarDetalle" on-click="cerrarDetalle" ></paper-icon-button>
+				<!--<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>-->	
 				<div style = 'width:  90%; display: block; padding: 5%;'>
 				<div  class="bloque">
 					<label style="width: 100%;" class="titulo">{{detalleOficina.description}}</label>
@@ -52,13 +53,20 @@
 					<label style="width: 35%; padding-top:0.5%;" class="subTitulo">{{detalleOficina.telephone}}</label>
 
 				</div>
-				<div class="bloque">
+				<!--  <div class="bloque">
 				    <iron-icon icon="flag" class="icono" ></iron-icon>
 					<label style="width: 55%;" class="subTitulo-bold">Rutas</label>
 					<div style="width: 35%; padding-top:0.5%; float:left;" >
 						<paper-button on-tap="sendNavigation" class="botonComoLlegar botonComollegarLink" noink>¿Como llegar?</paper-button>
 					</div>
+				</div> -->
+				<div class="botonera" >
+					<paper-button id= "btnRutas" class="boton boton-ticket2" style="width:100%; margin-bottom:2%;" on-click="sendNavigation">
+					<iron-icon src="{{dirResources}}/images/como-llegar.svg" style="margin-right: 2px;" ></iron-icon>
+					Cómo llegar
+					</paper-button>
 				</div>
+				
 				<div class="botonera" >
 					<paper-button id= "btnReservarTicket" class="boton boton-ticket" style="width:100%; margin-bottom:2%;" on-click="abrirLogin">Reservar ticket de atención</paper-button>
 					<!--<paper-button class="boton" style="width:100%;" on-click="cerrarDetalle">Cancelar</paper-button> -->
@@ -71,11 +79,11 @@
 		</div>  
 		
 		<div id = "detalleMinimizado" style="display: none;" on-click="mostrarItemDetalle">
+		    <img id="icoAbrirDetalle" src="{{dirResources}}/images/masinfo.png"> 
 			<h1>{{detalleOficina.tituloMinimizado}}</h1>
 			<div class="numKm">{{distance}}</div>
 			<div style="clear: both;"></div>
 			<p>{{detalleOficina.addressMinimizado}} ({{detalleOficina.provinceMinimizado}})</p>
-			
 		</div>
 		
 	</template>
@@ -201,7 +209,7 @@
 			}
 
 	      mostrarItemDetalle(){
-	    	    this.$.detalle.style.display = 'block';
+		      	this.$.detalle.style.display = 'block';
 				this.$.btnCerrarDetalle.style.display = 'block';
 				this.$.detalleMinimizado.style.display = 'none';
 				this.$.divCentrarGps.style.display = 'none';

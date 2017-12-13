@@ -17,11 +17,66 @@ app-drawer-layout:not ([narrow] ) [drawer-toggle] {
 
 app-header {
 	color: #fff;
-	background-color: #017ECD;  
+	background-color: #0e5aa9;   
 }
 
 app-header paper-icon-button { -
 	-paper-icon-button-ink-color: white;
+}
+
+.toolbarTitulo{
+	padding: 8px 0px 3px 0px;
+    margin: 0px;
+    height: 40px;
+    font-size: 1.15em;
+}
+
+.toolbarTabs paper-tabs{
+height: 35px !important;
+}
+
+paper-tabs {
+    --paper-tabs-selection-bar-color: none !important;
+    width: 100%;
+}
+
+paper-tabs {
+    margin-left: 9px;
+    margin-right: 9px;
+}
+
+paper-tab {
+padding: 0px 3px;
+}
+
+paper-tab a {
+    color: #FFF;
+    background: #13467A;
+    padding-top: 0px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright:5px;
+	-moz-border-radius-bottomleft:0px;
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	-webkit-border-bottom-left-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+	border-bottom-left-radius:0px;
+	border-bottom-right-radius:0px;
+	font-family: 'Roboto', 'Noto', sans-serif;
+	font-size: 0.8em !important;
+	text-transform: uppercase;
+	font-weight: normal;
+	line-height: 3.5;
+	padding-right:10px;
+}
+
+paper-tabs paper-tab.iron-selected a {
+    color: #FFF;
+    background: #006ec1;
+    padding-top: 0px;
 }
 
 .drawer-list {
@@ -94,7 +149,7 @@ paper-tab[link] a {
 		
 		    app-header {
 		      color: #fff;
-		      background-color:  #006EC1;
+		      background-color:  #0e55a0;
 		    }
 		
 		    app-header paper-icon-button {
@@ -203,7 +258,7 @@ paper-tab[link] a {
 		  }
 		  
 		  app-toolbar.buscador{
-		      background-color: #015DA2;
+		      background-color:  #006ec1;
 		  }
 		  
 		/*   app-toolbar{ */
@@ -293,6 +348,11 @@ paper-tab[link] a {
 		.child-element img{
 			margin-bottom: 15px;
 		}
+		
+		.iconsMenuHeader{
+			width:25px;height:25px;margin-top:-12px;margin-right:5px;
+		}
+		
 		</style>
 	</template> 
 </dom-module>

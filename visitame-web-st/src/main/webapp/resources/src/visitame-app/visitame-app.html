@@ -71,7 +71,7 @@
     <app-header-layout id = "headerMain" has-scrolling-region>
 
       <app-header id="header" slot="header"   effects="waterfall">
-        <app-toolbar>
+        <app-toolbar class = "toolbarTitulo">
           <!--  <paper-icon-button class="ver" icon="my-icons:menu" drawer-toggle></paper-icon-button>-->
           <paper-icon-button class="back-btn" icon="arrow-back" aria-label="Atrás" on-click="_regresar"></paper-icon-button>
           <div main-title style="text-align: center;">Ubícanos</div>
@@ -80,11 +80,20 @@
           -->
       	</app-toolbar>
 
-      	<app-toolbar class="ver toolbarNavegador" primary>
+      	<app-toolbar class="ver toolbarNavegador toolbarTabs" primary>
           <paper-tabs selected="[[pagina]]" attr-for-selected="name" noink>
-          	<paper-tab  name="oficinas"><a   href="visitame/oficinas">Oficinas</a></paper-tab>
-          	<paper-tab  name="cajeros"><a   href="visitame/cajeros">Cajeros</a></paper-tab>
-          	<paper-tab  name="agentes"><a  href="visitame/agentes">Agentes</a></paper-tab>
+          	<paper-tab  name="oficinas"><a  href="visitame/oficinas">
+          		<iron-icon icon="maps:oficinas" class="iconsMenuHeader" ></iron-icon>
+          		Oficinas</a>
+          	</paper-tab>
+          	<paper-tab  name="cajeros"><a   href="visitame/cajeros">
+          		<iron-icon icon="maps:cajeros" class="iconsMenuHeader" ></iron-icon>
+          		Cajeros</a>
+          	</paper-tab>
+          	<paper-tab  name="agentes"><a  href="visitame/agentes">
+          		<iron-icon icon="maps:agentes" class="iconsMenuHeader" ></iron-icon>
+          		Agentes</a>
+          	</paper-tab>
       	  </paper-tabs>
       	</app-toolbar>
         
@@ -111,7 +120,7 @@
           
         <oficinas-view id ="viewVisitas" name="oficinas" seleccion="[[pagina]]" tipo-unidad="O"></oficinas-view>
         <cajeros-view id ="viewCajeros"  name="cajeros"  seleccion="[[pagina]]" tipo-unidad="C"></cajeros-view>
-        <cajeros-view id ="viewAgentes"  name="agentes"  seleccion="[[pagina]]" tipo-unidad="A"></agentes-view>
+        <agentes-view id ="viewAgentes"  name="agentes"  seleccion="[[pagina]]" tipo-unidad="A"></agentes-view>
         <my-view404 name="view404"></my-view404>
         
       </iron-pages>
