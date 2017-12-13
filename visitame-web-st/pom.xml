@@ -11,7 +11,7 @@
   <description>Proyecto Web Local Para los Archivos estaticos</description>
   
   <build>
-		<finalName>ubicanosST</finalName>
+		<finalName>visitameST</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

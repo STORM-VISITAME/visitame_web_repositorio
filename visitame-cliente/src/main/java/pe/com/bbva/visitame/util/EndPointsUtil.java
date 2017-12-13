@@ -23,6 +23,12 @@ public final class EndPointsUtil {
 		public final static String ACTUALIZAR_DATOS_CONTACTO		=	"/account/actualizarDatosContacto";
 	}
 	
+	public static class END_POINTS_QUERY {
+		public final static String SELECT 							=	"/queryExecutor/select";
+		public final static String INSERT_UPDATE 					=	"/queryExecutor/updateInsert";
+		public final static String SCRIPT							=	"/queryExecutor/execute";
+	}
+	
 	public static class END_POINTS_GEOLOCALIZACION {
 		public final static String GET_POIS 						=	"/geolocalizacion/pois";
 	}

@@ -78,9 +78,9 @@
   </head>
   <body>
     <visitame-app>
-    	<div style="width: 100%; text-align: center;">
+    	<!-- <div style="width: 100%; text-align: center;">
     		<re-captcha id="recaptchaLogin" sitekey="6Lfd7CcUAAAAALern9JHrjPXMg1YsKRj2LID6MI6" class="captcha"></re-captcha>
-    	</div>
+    	</div> -->
     </visitame-app>
     <view-error-dialog id="dialog-error"></view-error-dialog>	
   </body>
