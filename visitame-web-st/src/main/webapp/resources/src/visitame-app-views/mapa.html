@@ -326,7 +326,7 @@
 	        		  //Seleccion desde hacer click en el marker
 	        		  marker.addListener('click', (e) => {
 	        			  
-	        			   if(item.type == 'O'){
+	        			   if(item.type == 'O' || item.type == 'C'){
 	        				   this.setOrigenSeleccion('map');
 	        					
 	        				   this.$.btnCerrarDetalle.style.display = 'none';
@@ -360,7 +360,7 @@
 	    	 //Seleccion desde hacer click en item de listado
 
 		     let dimensiones = this.getDimensionesDetalle();
-	    	 if(unidad.type == 'O'){
+	    	 if(unidad.type == 'O' || unidad.type == 'C'){
 	    		 this.$.detalle.style.display = 'block';
 	    		 this.$.detalleMinimizado.style.display = 'none';
 					this.$.divCentrarGps.style.display = 'none';

@@ -199,6 +199,7 @@ display: none;
          
           this.listOficinas = data;
         }else{
+        	this.$.loadingLista.active = false;
         	this.$.noResultList.style.display = 'block';
         }
 
@@ -239,6 +240,7 @@ display: none;
       }
 
       reloadData(latitud , longitud , tipo ,reaload){
+          
     	  this.$.loadingLista.active = true;
     	  this.getParentApp().$.btnChangeMapaView.disabled = true;
     	  var geolocalizacionService = this.$.geoLocalizacionService;
@@ -265,8 +267,8 @@ display: none;
 
     	  SyncObjects(()=>{
         		this.resetearMapa();
+                this.$.oficinasRecords.style.display = 'none';
 				this.reloadData(latitud , longitud , tipo , reload);
-
           });	
     	  
       }
