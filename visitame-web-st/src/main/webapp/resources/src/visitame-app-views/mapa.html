@@ -29,9 +29,11 @@
 		<div id="contenedorMapaDetalle">
 			<div id = "mapContent"></div>
 			<div id="detalle" class="contenedor" style="height: 0px;display: none;">
-			    <paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/masinfo.png" class="icoCerrarDetalle" on-click="cerrarDetalle" ></paper-icon-button>
 				<!--<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/iconox.png" class="iconoClose" on-click="cerrarDetalle"  ></paper-icon-button>-->	
-				<div style = 'width:  90%; display: block; padding: 5%;'>
+				<div style="width:100%; height: 10%; text-align: center;">
+					<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/masinfo.png" class="icoCerrarDetalle" on-click="cerrarDetalle" ></paper-icon-button>
+				</div>
+				<div style = 'width:  90%; display: block; padding: 0 5% 5% 5%;'>
 				<div  class="bloque">
 					<label style="width: 100%;" class="titulo">{{detalleOficina.description}}</label>
 					<label style="width: 100%;" class="subTitulo">{{detalleOficina.address}}</label>
@@ -79,7 +81,10 @@
 		</div>  
 		
 		<div id = "detalleMinimizado" style="display: none;" on-click="mostrarItemDetalle">
-		    <img id="icoAbrirDetalle" src="{{dirResources}}/images/masinfo.png"> 
+<!-- 		    <img id="icoAbrirDetalle" src="{{dirResources}}/images/masinfo.png"> -->
+		    <div style="width:100%; height: 25px; text-align: center;">
+					<paper-icon-button id = "btnCerrarDetalle" src="{{dirResources}}/images/masinfo.png" class="icoCerrarDetalle" style="padding-top:0px; padding-bottom:0px; height:15px;" ></paper-icon-button>
+			</div> 
 			<h1>{{detalleOficina.tituloMinimizado}}</h1>
 			<div class="numKm">{{distance}}</div>
 			<div style="clear: both;"></div>

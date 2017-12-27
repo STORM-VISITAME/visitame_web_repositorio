@@ -116,7 +116,7 @@ body {
 			</div>
 			<div role="tabpanel" class="tab-pane" id="buzz">
 			
-				<iframe src = "http://localhost/resources/magicbox/" frameborder="0" width="100%" height="510px"></iframe>
+				<iframe src = "http://118.216.81.42/resources/magicbox/" frameborder="0" width="100%" height="510px"></iframe>
 			
 			</div>
 			<div role="tabpanel" class="tab-pane" id="references">
